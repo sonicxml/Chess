@@ -34,4 +34,9 @@ public class Bishop implements ChessPiece {
         return (isWhite) ? "♗" : "♝";
     }
 
+    @Override
+    public String getName() {
+        return "Bishop";
+    }
+
 }

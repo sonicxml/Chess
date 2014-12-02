@@ -51,6 +51,25 @@ public class ChessBoard { // extends JPanel {
                 } else {
                     square.setBackground((i % 2 != j % 2) ? DARK_TAN
                             : LIGHT_TAN);
+
+                    final int iFinal = i;
+                    final int jFinal = j;
+
+                    square.addMouseListener(new MouseAdapter() {
+                        public void mouseEntered(MouseEvent e) {
+                            toggleBackground(iFinal, jFinal);
+                        }
+
+                        public void mouseExited(MouseEvent e) {
+                            toggleBackground(iFinal, jFinal);
+                        }
+                    });
+
+                    square.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            toggleBackground(5, 5);
+                        }
+                    });
                 }
 
                 chessSquares[i][j] = square;
@@ -59,6 +78,7 @@ public class ChessBoard { // extends JPanel {
                 frame.add(chessSquares[i][j], c);
             }
         }
+        
         this.mesg = mesg;
     }
 
@@ -100,25 +120,6 @@ public class ChessBoard { // extends JPanel {
                         setLabelFont(chessSquares[i][j]);
                     }
 
-                    final int iFinal = i;
-                    final int jFinal = j;
-
-                    chessSquares[i][j].addMouseListener(new MouseAdapter() {
-                        public void mouseEntered(MouseEvent e) {
-                            toggleBackground(iFinal, jFinal);
-                        }
-
-                        public void mouseExited(MouseEvent e) {
-                            toggleBackground(iFinal, jFinal);
-                        }
-                    });
-
-                    chessSquares[i][j].addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            toggleBackground(5, 5);
-                        }
-                    });
-
                 } else {
                     // Blank
                     String blank = new String(" ");
@@ -127,7 +128,7 @@ public class ChessBoard { // extends JPanel {
                 }
             }
         }
-        this.mesg.setText("Game reset. White's move");
+        this.mesg.setText("New Game! It's White's move");
     }
 
     private void setDefaultBGColors() {

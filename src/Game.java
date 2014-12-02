@@ -1,6 +1,15 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class Game implements Runnable {
 	public void run() {
@@ -36,6 +45,11 @@ public class Game implements Runnable {
 		// Help Heading
 		JMenu helpMenu = new JMenu("Help");
 		final JMenuItem instructions = new JMenuItem("Instructions");
+		instructions.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        SwingUtilities.invokeLater(new Instructions());
+		    }
+		});
 		final JMenuItem about = new JMenuItem("About this game");
 		helpMenu.add(instructions);
 		helpMenu.add(about);
