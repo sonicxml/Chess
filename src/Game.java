@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -51,6 +52,15 @@ public class Game implements Runnable {
 		    }
 		});
 		final JMenuItem about = new JMenuItem("About this game");
+		about.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        JOptionPane.showMessageDialog(frame,
+		                "This game was made for a CIS 120 project.\n "
+		                + "(C) Trevin Gandhi 2014",
+		                "About this game",
+		                JOptionPane.PLAIN_MESSAGE);
+		    }
+		});
 		helpMenu.add(instructions);
 		helpMenu.add(about);
 

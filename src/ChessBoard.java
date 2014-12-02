@@ -12,8 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
 public class ChessBoard { // extends JPanel {
     JLabel mesg; // Current message to player
@@ -78,7 +76,6 @@ public class ChessBoard { // extends JPanel {
                 frame.add(chessSquares[i][j], c);
             }
         }
-        
         this.mesg = mesg;
     }
 
