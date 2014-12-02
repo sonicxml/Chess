@@ -44,18 +44,10 @@ public class ChessBoard { // extends JPanel {
                     String label = (j > 0 && j < 9) ? String
                             .valueOf((char) (j + 64)) : "";
                     square.setText(label);
-//                    JLabel jlabel = new JLabel(label);
-//                    jlabel.setHorizontalAlignment(JLabel.CENTER);
-//                    jlabel.setVerticalAlignment(JLabel.CENTER);
-//                    square.add(jlabel);
                 } else if (j == 0 || j == 9) {
                     // Numerical label
                     String label = (i > 0 && i < 9) ? String.valueOf(i) : "";
                     square.setText(label);
-//                    JLabel jlabel = new JLabel(label);
-//                    jlabel.setHorizontalAlignment(JLabel.CENTER);
-//                    jlabel.setVerticalAlignment(JLabel.CENTER);
-//                    square.add(jlabel);
                 } else {
                     square.setBackground((i % 2 != j % 2) ? DARK_TAN
                                                           : LIGHT_TAN);
@@ -76,62 +68,41 @@ public class ChessBoard { // extends JPanel {
                 if (i < 3 || i > 6) {
                     if (i == 2 || i == 7) {
                         // Pawn
-//                        JLabel pawn = new JLabel((i > 6) ? "♙" : "♟");
-//                        setLabelFont(pawn);
-                       
                         String pawn = new String((i > 6) ? "♙" : "♟");
                         chessSquares[i][j].setText(pawn);
                         setLabelFont(chessSquares[i][j]);
-//                        chessSquares[i][j].add(pawn);
                     } else if (j == 1 || j == 8) {
                         // Rook
-//                        JLabel rook = new JLabel((i > 6) ? "♖" : "♜");
-//                        setLabelFont(rook);
                         String rook = new String((i > 6) ? "♖" : "♜");
                         chessSquares[i][j].setText(rook);
                         setLabelFont(chessSquares[i][j]);
-//                        chessSquares[i][j].add(rook);
                     } else if (j == 2 || j == 7) {
                         // Knight
-//                        JLabel knight = new JLabel((i > 6) ? "♘" : "♞");
-//                        setLabelFont(knight);
                         String knight = new String((i > 6) ? "♘" : "♞");
                         chessSquares[i][j].setText(knight);
                         setLabelFont(chessSquares[i][j]);
-//                        chessSquares[i][j].add(knight);
                     } else if (j == 3 || j == 6) {
                         // Bishop
-//                        JLabel bishop = new JLabel((i > 6) ? "♗" : "♝");
-//                        setLabelFont(bishop);
                         String bishop = new String((i > 6) ? "♗" : "♝");
                         chessSquares[i][j].setText(bishop);
                         setLabelFont(chessSquares[i][j]);
-//                        chessSquares[i][j].add(bishop);
                     } else if (j == 4) {
                         // Queen
-//                        JLabel queen = new JLabel((i > 6) ? "♕" : "♛");
-//                        setLabelFont(queen);
                         String queen = new String((i > 6) ? "♕" : "♛");
                         chessSquares[i][j].setText(queen);
                         setLabelFont(chessSquares[i][j]);
-//                        chessSquares[i][j].add(queen);
                     } else if (j == 5) {
                         // King
-//                        JLabel king = new JLabel((i > 6) ? "♔" : "♚");
-//                        setLabelFont(king);
                         String king = new String((i > 6) ? "♔" : "♚");
                         chessSquares[i][j].setText(king);
                         setLabelFont(chessSquares[i][j]);
-//                        chessSquares[i][j].add(king);
                     }
                     
                     final int iFinal = i;
                     final int jFinal = j;
 
                     chessSquares[i][j].addMouseListener(new MouseAdapter() {
-                        final Color initial = chessSquares[iFinal][jFinal].getBackground();
                         public void mouseEntered(MouseEvent e) {
-                            Border thickBorder = new LineBorder(Color.YELLOW, 12);
                             toggleBackground(iFinal, jFinal);
                         }
                         
@@ -148,12 +119,9 @@ public class ChessBoard { // extends JPanel {
 
                 } else {
                     // Blank
-//                    JLabel blank = new JLabel(" ");
-//                    setLabelFont(blank);
                     String blank = new String(" ");
                     chessSquares[i][j].setText(blank);
                     setLabelFont(chessSquares[i][j]);
-//                    chessSquares[i][j].add(blank);
                 }
             }
         }
@@ -163,7 +131,6 @@ public class ChessBoard { // extends JPanel {
     
     public void toggleBackground(int i, int j) {
         // Border thickBorder = new LineBorder(Color.YELLOW, 12);
-        // chessSquares[i][j].setBorder(thickBorder);
         if (chessSquares[i][j].getBackground() == Color.YELLOW) {
             chessSquares[i][j].setBackground((i % 2 != j % 2) ? DARK_TAN
                                                               : LIGHT_TAN);
@@ -172,16 +139,8 @@ public class ChessBoard { // extends JPanel {
         }
     }
     
-    private class mouseListener extends MouseAdapter {
-        public void mouseEntered(MouseEvent e, int i, int j) {
-            // Border thickBorder = new LineBorder(Color.YELLOW, 12);
-            chessSquares[i][j].setBackground(Color.YELLOW);
-        }
-    }
     private void setLabelFont(JButton button) {
         Font f = button.getFont();
         button.setFont(f.deriveFont(f.getStyle(), 25));
-
     }
-
 }
