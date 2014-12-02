@@ -8,4 +8,6 @@ public interface ChessPiece {
     public boolean isValidMove(Coords<Integer, Integer> coord);
     
     public String getIcon();
+    
+    public String getName();
 }

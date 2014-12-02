@@ -34,4 +34,9 @@ public class Queen implements ChessPiece {
         return (isWhite) ? "♕" : "♛";
     }
 
+    @Override
+    public String getName() {
+        return "Queen";
+    }
+
 }

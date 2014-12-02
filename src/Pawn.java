@@ -37,4 +37,9 @@ public class Pawn implements ChessPiece {
         return (isWhite) ? "♙" : "♟";
     }
 
+    @Override
+    public String getName() {
+        return "Pawn";
+    }
+
 }

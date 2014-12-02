@@ -38,7 +38,7 @@ public class ChessBoard { // extends JPanel {
                 square.setBorderPainted(false);
                 square.setPreferredSize(new Dimension(70, 70));
                 square.setOpaque(true);
-                
+
                 if (i == 0 || i == 9) {
                     // Alphabetical label
                     String label = (j > 0 && j < 9) ? String
@@ -50,9 +50,9 @@ public class ChessBoard { // extends JPanel {
                     square.setText(label);
                 } else {
                     square.setBackground((i % 2 != j % 2) ? DARK_TAN
-                                                          : LIGHT_TAN);
+                            : LIGHT_TAN);
                 }
-                
+
                 chessSquares[i][j] = square;
                 c.gridx = j;
                 c.gridy = i;
@@ -63,6 +63,8 @@ public class ChessBoard { // extends JPanel {
     }
 
     public void reset() {
+        setDefaultBGColors();
+        
         for (int i = 1; i < chessSquares[0].length - 1; i++) {
             for (int j = 1; j < chessSquares[1].length - 1; j++) {
                 if (i < 3 || i > 6) {
@@ -97,7 +99,7 @@ public class ChessBoard { // extends JPanel {
                         chessSquares[i][j].setText(king);
                         setLabelFont(chessSquares[i][j]);
                     }
-                    
+
                     final int iFinal = i;
                     final int jFinal = j;
 
@@ -105,12 +107,12 @@ public class ChessBoard { // extends JPanel {
                         public void mouseEntered(MouseEvent e) {
                             toggleBackground(iFinal, jFinal);
                         }
-                        
+
                         public void mouseExited(MouseEvent e) {
                             toggleBackground(iFinal, jFinal);
                         }
                     });
-                    
+
                     chessSquares[i][j].addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             toggleBackground(5, 5);
@@ -127,10 +129,20 @@ public class ChessBoard { // extends JPanel {
         }
         this.mesg.setText("Game reset. White's move");
     }
-    
-    
-    public void toggleBackground(int i, int j) {
-        // Border thickBorder = new LineBorder(Color.YELLOW, 12);
+
+    private void setDefaultBGColors() {
+        for (int i = 0; i < chessSquares[0].length; i++) {
+            for (int j = 0; j < chessSquares[1].length; j++) {
+                if (i > 0 && i < 9 && j > 0 && j < 9) {
+                    chessSquares[i][j]
+                            .setBackground((i % 2 != j % 2) ? DARK_TAN
+                                                            : LIGHT_TAN);
+                }
+            }
+        }
+    }
+
+    private void toggleBackground(int i, int j) {
         if (chessSquares[i][j].getBackground() == Color.YELLOW) {
             chessSquares[i][j].setBackground((i % 2 != j % 2) ? DARK_TAN
                                                               : LIGHT_TAN);
@@ -138,7 +150,7 @@ public class ChessBoard { // extends JPanel {
             chessSquares[i][j].setBackground(Color.YELLOW);
         }
     }
-    
+
     private void setLabelFont(JButton button) {
         Font f = button.getFont();
         button.setFont(f.deriveFont(f.getStyle(), 25));

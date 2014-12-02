@@ -34,4 +34,9 @@ public class Rook implements ChessPiece {
         return (isWhite) ? "♖" : "♜";
     }
 
+    @Override
+    public String getName() {
+        return "Rook";
+    }
+
 }
