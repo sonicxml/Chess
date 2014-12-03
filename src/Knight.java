@@ -3,9 +3,9 @@ import java.util.Set;
 
 public class Knight implements ChessPiece {
 
-    public Coords<Integer, Integer> coords;
-    public boolean isWhite;
-    public Set<Coords<Integer, Integer>> possibleMoves;
+    private Coords<Integer, Integer> coords;
+    public final boolean isWhite;
+    private Set<Coords<Integer, Integer>> possibleMoves;
     
     public Knight(Coords<Integer, Integer> coords, boolean isWhite) {
         this.coords = coords;
@@ -24,8 +24,7 @@ public class Knight implements ChessPiece {
 
     @Override
     public Set<Coords<Integer, Integer>> getPossibleMoves() {
-        // TODO Auto-generated method stub
-        return null;
+        return possibleMoves;
     }
 
     @Override
@@ -42,6 +41,11 @@ public class Knight implements ChessPiece {
     @Override
     public String getName() {
         return "Knight";
+    }
+
+    @Override
+    public boolean isWhite() {
+        return isWhite;
     }
 
 }

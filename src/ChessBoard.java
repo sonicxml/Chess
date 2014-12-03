@@ -21,6 +21,9 @@ public class ChessBoard { // extends JPanel {
     JPanel frame = new JPanel(new GridBagLayout());
     Color DARK_TAN = new Color(190, 120, 50);
     Color LIGHT_TAN = new Color(247, 206, 132);
+    int whiteScore = 0;
+    int blackScore = 0;
+    boolean isWhitesMove = true;
 
     public ChessBoard(JLabel mesg) {
         GridBagConstraints c = new GridBagConstraints();
@@ -29,38 +32,6 @@ public class ChessBoard { // extends JPanel {
         frame.setMinimumSize(SIZE);
         frame.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         frame.setFocusable(true);
-
-        for (int i = 0; i < chessPieces[0].length; i++) {
-            for (int j = 0; j < chessPieces[1].length; j++) {
-                if (i < 2 || i > 5) {
-                    Coords<Integer, Integer> location = 
-                            new Coords<Integer, Integer>(i, j);
-                    boolean isWhite = (i > 5);
-                    if (i == 1 || i == 6) {
-                        // Pawn
-                        chessPieces[i][j] = (new Pawn(location, isWhite));
-                    } else if (j == 0 || j == 7) {
-                        // Rook
-                        chessPieces[i][j] = (new Rook(location, isWhite));
-                    } else if (j == 1 || j == 6) {
-                        // Knight
-                        chessPieces[i][j] = (new Knight(location, isWhite));
-                    } else if (j == 2 || j == 5) {
-                        // Bishop
-                        chessPieces[i][j] = (new Bishop(location, isWhite));
-                    } else if (j == 3) {
-                        // Queen
-                        chessPieces[i][j] = (new Queen(location, isWhite));
-                    } else if (j == 4) {
-                        // King
-                        chessPieces[i][j] = (new King(location, isWhite));
-                    }
-                } else {
-                    // Blank
-                    chessPieces[i][j] = null;
-                }
-            }
-        }
         
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
@@ -98,6 +69,16 @@ public class ChessBoard { // extends JPanel {
                     square.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             toggleBackground(5, 5);
+                            if (chessPieces[iFinal-1][jFinal-1] != null) {
+                                if (chessPieces[iFinal-1][jFinal-1].isWhite()) {
+                                    whiteScore++;
+                                    isWhitesMove = false;
+                                } else {
+                                    blackScore++;
+                                    isWhitesMove = true;
+                                }
+                            }
+                            repaint();
                         }
                     });
                 }
@@ -113,6 +94,40 @@ public class ChessBoard { // extends JPanel {
 
     public void reset() {
         setDefaultBGColors();
+        whiteScore = 0;
+        blackScore = 0;
+        
+        for (int i = 0; i < chessPieces[0].length; i++) {
+            for (int j = 0; j < chessPieces[1].length; j++) {
+                if (i < 2 || i > 5) {
+                    Coords<Integer, Integer> location = 
+                            new Coords<Integer, Integer>(i, j);
+                    boolean isWhite = (i > 5);
+                    if (i == 1 || i == 6) {
+                        // Pawn
+                        chessPieces[i][j] = (new Pawn(location, isWhite));
+                    } else if (j == 0 || j == 7) {
+                        // Rook
+                        chessPieces[i][j] = (new Rook(location, isWhite));
+                    } else if (j == 1 || j == 6) {
+                        // Knight
+                        chessPieces[i][j] = (new Knight(location, isWhite));
+                    } else if (j == 2 || j == 5) {
+                        // Bishop
+                        chessPieces[i][j] = (new Bishop(location, isWhite));
+                    } else if (j == 3) {
+                        // Queen
+                        chessPieces[i][j] = (new Queen(location, isWhite));
+                    } else if (j == 4) {
+                        // King
+                        chessPieces[i][j] = (new King(location, isWhite));
+                    }
+                } else {
+                    // Blank
+                    chessPieces[i][j] = null;
+                }
+            }
+        }
         
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
@@ -125,13 +140,34 @@ public class ChessBoard { // extends JPanel {
                     chessSquares[i2][j2].setText(chessPieces[i][j].getIcon());
                     setLabelFont(chessSquares[i2][j2]);
                 }
-        
             }
         }
-
-        this.mesg.setText("New Game! It's White's move. White: 0, Black: 0");
+        this.mesg.setText("New Game! It's White's move. White: " 
+        + Integer.toString(whiteScore) + ", Black: " 
+        + Integer.toString(blackScore));
     }
 
+    public void repaint() {
+        for (int i = 0; i < chessPieces[0].length; i++) {
+            for (int j = 0; j < chessPieces[1].length; j++) {
+                int i2 = i + 1;
+                int j2 = j + 1;
+                if (chessPieces[i][j] == null) {
+                    chessSquares[i2][j2].setText("");
+                    setLabelFont(chessSquares[i2][j2]);
+                } else {
+                    chessSquares[i2][j2].setText(chessPieces[i][j].getIcon());
+                    setLabelFont(chessSquares[i2][j2]);
+                }
+            }
+        }
+        String move = new String((isWhitesMove) ? "White's move" : 
+                                                  "Black's move");
+        this.mesg.setText("It's " + move + " . White: " 
+        + Integer.toString(whiteScore) + ", Black: " 
+        + Integer.toString(blackScore));
+
+    }
     private void setDefaultBGColors() {
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {

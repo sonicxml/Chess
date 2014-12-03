@@ -1,6 +1,7 @@
 import java.util.Set;
 
 public interface ChessPiece {
+
     public boolean move(Coords<Integer, Integer> coord);
     
     public Set<Coords<Integer, Integer>> getPossibleMoves();
@@ -10,4 +11,6 @@ public interface ChessPiece {
     public String getIcon();
     
     public String getName();
+    
+    public boolean isWhite();
 }

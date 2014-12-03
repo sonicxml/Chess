@@ -2,9 +2,9 @@ import java.util.Set;
 
 public class Pawn implements ChessPiece {
     
-    public Coords<Integer, Integer> coords;
-    public boolean isWhite;
-    public Set<Coords<Integer, Integer>> possibleMoves;
+    private Coords<Integer, Integer> coords;
+    public final boolean isWhite;
+    private Set<Coords<Integer, Integer>> possibleMoves;
     
     public Pawn(Coords<Integer, Integer> coords, boolean isWhite) {
         this.coords = coords;
@@ -40,6 +40,11 @@ public class Pawn implements ChessPiece {
     @Override
     public String getName() {
         return "Pawn";
+    }
+
+    @Override
+    public boolean isWhite() {
+        return isWhite;
     }
 
 }
