@@ -7,6 +7,11 @@ public class Bishop implements ChessPiece {
     public boolean isWhite;
     public Set<Coords<Integer, Integer>> possibleMoves;
 
+    public Bishop(Coords<Integer, Integer> coords, boolean isWhite) {
+        this.coords = coords;
+        this.isWhite = isWhite;
+    }
+
     @Override
     public boolean move(Coords<Integer, Integer> coord) {
         if (isValidMove(coords)) {

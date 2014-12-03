@@ -30,6 +30,38 @@ public class ChessBoard { // extends JPanel {
         frame.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         frame.setFocusable(true);
 
+        for (int i = 0; i < chessPieces[0].length; i++) {
+            for (int j = 0; j < chessPieces[1].length; j++) {
+                if (i < 2 || i > 5) {
+                    Coords<Integer, Integer> location = 
+                            new Coords<Integer, Integer>(i, j);
+                    boolean isWhite = (i > 5);
+                    if (i == 1 || i == 6) {
+                        // Pawn
+                        chessPieces[i][j] = (new Pawn(location, isWhite));
+                    } else if (j == 0 || j == 7) {
+                        // Rook
+                        chessPieces[i][j] = (new Rook(location, isWhite));
+                    } else if (j == 1 || j == 6) {
+                        // Knight
+                        chessPieces[i][j] = (new Knight(location, isWhite));
+                    } else if (j == 2 || j == 5) {
+                        // Bishop
+                        chessPieces[i][j] = (new Bishop(location, isWhite));
+                    } else if (j == 3) {
+                        // Queen
+                        chessPieces[i][j] = (new Queen(location, isWhite));
+                    } else if (j == 4) {
+                        // King
+                        chessPieces[i][j] = (new King(location, isWhite));
+                    }
+                } else {
+                    // Blank
+                    chessPieces[i][j] = null;
+                }
+            }
+        }
+        
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
                 JButton square = new JButton();
@@ -82,50 +114,22 @@ public class ChessBoard { // extends JPanel {
     public void reset() {
         setDefaultBGColors();
         
-        for (int i = 1; i < chessSquares[0].length - 1; i++) {
-            for (int j = 1; j < chessSquares[1].length - 1; j++) {
-                if (i < 3 || i > 6) {
-                    if (i == 2 || i == 7) {
-                        // Pawn
-                        String pawn = new String((i > 6) ? "♙" : "♟");
-                        chessSquares[i][j].setText(pawn);
-                        setLabelFont(chessSquares[i][j]);
-                    } else if (j == 1 || j == 8) {
-                        // Rook
-                        String rook = new String((i > 6) ? "♖" : "♜");
-                        chessSquares[i][j].setText(rook);
-                        setLabelFont(chessSquares[i][j]);
-                    } else if (j == 2 || j == 7) {
-                        // Knight
-                        String knight = new String((i > 6) ? "♘" : "♞");
-                        chessSquares[i][j].setText(knight);
-                        setLabelFont(chessSquares[i][j]);
-                    } else if (j == 3 || j == 6) {
-                        // Bishop
-                        String bishop = new String((i > 6) ? "♗" : "♝");
-                        chessSquares[i][j].setText(bishop);
-                        setLabelFont(chessSquares[i][j]);
-                    } else if (j == 4) {
-                        // Queen
-                        String queen = new String((i > 6) ? "♕" : "♛");
-                        chessSquares[i][j].setText(queen);
-                        setLabelFont(chessSquares[i][j]);
-                    } else if (j == 5) {
-                        // King
-                        String king = new String((i > 6) ? "♔" : "♚");
-                        chessSquares[i][j].setText(king);
-                        setLabelFont(chessSquares[i][j]);
-                    }
-
+        for (int i = 0; i < chessPieces[0].length; i++) {
+            for (int j = 0; j < chessPieces[1].length; j++) {
+                int i2 = i + 1;
+                int j2 = j + 1;
+                if (chessPieces[i][j] == null) {
+                    chessSquares[i2][j2].setText("");
+                    setLabelFont(chessSquares[i2][j2]);
                 } else {
-                    // Blank
-                    String blank = new String(" ");
-                    chessSquares[i][j].setText(blank);
-                    setLabelFont(chessSquares[i][j]);
+                    chessSquares[i2][j2].setText(chessPieces[i][j].getIcon());
+                    setLabelFont(chessSquares[i2][j2]);
                 }
+        
             }
         }
-        this.mesg.setText("New Game! It's White's move");
+
+        this.mesg.setText("New Game! It's White's move. White: 0, Black: 0");
     }
 
     private void setDefaultBGColors() {
