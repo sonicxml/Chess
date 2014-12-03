@@ -24,6 +24,9 @@ public class ChessBoard { // extends JPanel {
     int whiteScore = 0;
     int blackScore = 0;
     boolean isWhitesMove = true;
+    boolean isClicked = false;
+    int oldX;
+    int oldY;
 
     public ChessBoard(JLabel mesg) {
         GridBagConstraints c = new GridBagConstraints();
@@ -53,24 +56,36 @@ public class ChessBoard { // extends JPanel {
                     square.setBackground((i % 2 != j % 2) ? DARK_TAN
                             : LIGHT_TAN);
 
-                    final int iFinal = i;
-                    final int jFinal = j;
+                    final int iFinal = i - 1;
+                    final int jFinal = j - 1;
 
                     square.addMouseListener(new MouseAdapter() {
                         public void mouseEntered(MouseEvent e) {
-                            toggleBackground(iFinal, jFinal);
+                            toggleBackground(iFinal + 1, jFinal + 1);
                         }
 
                         public void mouseExited(MouseEvent e) {
-                            toggleBackground(iFinal, jFinal);
+                            toggleBackground(iFinal + 1, jFinal + 1);
                         }
                     });
 
                     square.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             toggleBackground(5, 5);
-                            if (chessPieces[iFinal-1][jFinal-1] != null) {
-                                if (chessPieces[iFinal-1][jFinal-1].isWhite()) {
+                            if (chessPieces[iFinal][jFinal] != null &&
+                                !isClicked && 
+                                chessPieces[iFinal][jFinal].isWhite() == 
+                                isWhitesMove) {
+                                
+                                isClicked = true;
+                                oldX = iFinal;
+                                oldY = jFinal;
+                            } else if (isClicked) {
+                                ChessPiece temp = chessPieces[oldX][oldY];
+                                chessPieces[oldX][oldY] = null;
+                                chessPieces[iFinal][jFinal] = temp;
+                                isClicked = false;
+                                if (chessPieces[iFinal][jFinal].isWhite()) {
                                     whiteScore++;
                                     isWhitesMove = false;
                                 } else {
