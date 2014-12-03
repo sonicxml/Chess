@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,18 +16,24 @@ import javax.swing.JPanel;
 
 public class ChessBoard { // extends JPanel {
     JLabel mesg; // Current message to player
+    
     private JButton[][] chessSquares = new JButton[10][10];
+    
     private ChessPiece[][] chessPieces = new ChessPiece[8][8];
+    private ChessPiece[][] oldPieces;
+    int oldX;
+    int oldY;
+
     private final Dimension SIZE = new Dimension(750, 750);
     JPanel frame = new JPanel(new GridBagLayout());
+    
     Color DARK_TAN = new Color(190, 120, 50);
     Color LIGHT_TAN = new Color(247, 206, 132);
+    
     int whiteScore = 0;
     int blackScore = 0;
     boolean isWhitesMove = true;
     boolean isClicked = false;
-    int oldX;
-    int oldY;
 
     public ChessBoard(JLabel mesg) {
         GridBagConstraints c = new GridBagConstraints();
@@ -80,7 +87,20 @@ public class ChessBoard { // extends JPanel {
                                 isClicked = true;
                                 oldX = iFinal;
                                 oldY = jFinal;
+                                oldPieces = copyPiecesToOld(chessPieces);
+                                
+                                if (Arrays.equals(oldPieces, chessPieces)) {
+                                    System.out.println("YA MAMA #1 WORKED");
+                                } else {
+                                    System.out.println("lol you fail #1");
+                                }
+                                
                             } else if (isClicked) {
+                                if (Arrays.equals(oldPieces, chessPieces)) {
+                                    System.out.println("YA MAMA #2 WORKED");
+                                } else {
+                                    System.out.println("lol you fail #2");
+                                }
                                 ChessPiece temp = chessPieces[oldX][oldY];
                                 chessPieces[oldX][oldY] = null;
                                 chessPieces[iFinal][jFinal] = temp;
@@ -91,6 +111,11 @@ public class ChessBoard { // extends JPanel {
                                 } else {
                                     blackScore++;
                                     isWhitesMove = true;
+                                }
+                                if (!Arrays.equals(oldPieces, chessPieces)) {
+                                    System.out.println("YA MAMA #2.5 WORKED");
+                                } else {
+                                    System.out.println("lol you fail #2.5");
                                 }
                             }
                             repaint();
@@ -162,6 +187,21 @@ public class ChessBoard { // extends JPanel {
         + Integer.toString(blackScore));
     }
 
+    public void undo() {
+        if (!Arrays.equals(oldPieces, chessPieces)) {
+            System.out.println("We're Good here");
+        }
+       chessPieces = oldPieces.clone();
+       if (Arrays.equals(oldPieces, chessPieces)) {
+           System.out.println("YA MAMA #3 WORKED");
+       } else {
+           System.out.println("lol you fail #3");
+       }
+       isWhitesMove = !isWhitesMove;
+       // TODO: Undo score changes
+       repaint();
+    }
+
     public void repaint() {
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
@@ -183,6 +223,7 @@ public class ChessBoard { // extends JPanel {
         + Integer.toString(blackScore));
 
     }
+    
     private void setDefaultBGColors() {
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
@@ -208,4 +249,23 @@ public class ChessBoard { // extends JPanel {
         Font f = button.getFont();
         button.setFont(f.deriveFont(f.getStyle(), 25));
     }
+    
+    private ChessPiece[][] copyPiecesToOld(ChessPiece[][] input) {
+        if (input == null) {
+            throw new IllegalArgumentException("Null ChessPieces");
+        }
+        
+        ChessPiece[][] target = 
+                new ChessPiece[input[0].length][input[1].length];
+        for (int i = 0; i < input[0].length; i++) {
+            for (int j = 0; j < input[1].length; j++) {
+                if (input[i][j] == null) {
+                    target[i][j] = null;
+                } else {
+                    target[i][j] = input[i][j];
+                }
+            }
+        }
+        return target;
+  }
 }

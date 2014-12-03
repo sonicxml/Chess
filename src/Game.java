@@ -41,8 +41,15 @@ public class Game implements Runnable {
 			}
 		});
 		gameMenu.add(newGame);
-        gameMenu.add(new JMenuItem("Undo")); 
-
+		
+		final JMenuItem undo = new JMenuItem("Undo");
+		undo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                court.undo();
+            }
+        });
+        gameMenu.add(undo); 
+        
 		// Help Heading
 		JMenu helpMenu = new JMenu("Help");
 		final JMenuItem instructions = new JMenuItem("Instructions");

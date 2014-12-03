@@ -10,7 +10,7 @@ public interface ChessPiece {
     
     public String getIcon();
     
-    public String getName();
+    public String toString();
     
     public boolean isWhite();
 }

@@ -39,7 +39,7 @@ public class King implements ChessPiece {
     }
 
     @Override
-    public String getName() {
+    public String toString() {
         return "King";
     }
 

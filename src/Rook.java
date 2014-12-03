@@ -39,7 +39,7 @@ public class Rook implements ChessPiece {
     }
 
     @Override
-    public String getName() {
+    public String toString() {
         return "Rook";
     }
 

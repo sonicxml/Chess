@@ -39,7 +39,7 @@ public class Knight implements ChessPiece {
     }
 
     @Override
-    public String getName() {
+    public String toString() {
         return "Knight";
     }
 
