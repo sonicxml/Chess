@@ -13,6 +13,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class Game implements Runnable {
+    static final JMenuBar menu = new JMenuBar();
+    static final JMenu gameMenu = new JMenu("Game");
+    static final JMenuItem newGame = new JMenuItem("New Game");
+    static final JMenuItem undo = new JMenuItem("Undo");
+    static final JMenu helpMenu = new JMenu("Help");
+    static final JMenuItem instructions = new JMenuItem("Instructions");
+    static final JMenuItem about = new JMenuItem("About this game");
+
 	public void run() {
 		final JFrame frame = new JFrame("Chess");
 		frame.setLocation(300, 300);
@@ -27,13 +35,10 @@ public class Game implements Runnable {
 		final ChessBoard court = new ChessBoard(status);
 		frame.add(court.frame, BorderLayout.CENTER);
 
-		final JMenuBar menu = new JMenuBar();
+		
 		menu.setVisible(true);
 
 		// Game Heading
-		JMenu gameMenu = new JMenu("Game");
-		
-		final JMenuItem newGame = new JMenuItem("New Game");
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				court.reset();
@@ -42,23 +47,20 @@ public class Game implements Runnable {
 		});
 		gameMenu.add(newGame);
 		
-		final JMenuItem undo = new JMenuItem("Undo");
 		undo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 court.undo();
             }
         });
         gameMenu.add(undo); 
+        undo.setEnabled(false);
         
 		// Help Heading
-		JMenu helpMenu = new JMenu("Help");
-		final JMenuItem instructions = new JMenuItem("Instructions");
 		instructions.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        SwingUtilities.invokeLater(new Instructions());
 		    }
 		});
-		final JMenuItem about = new JMenuItem("About this game");
 		about.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        JOptionPane.showMessageDialog(frame,
@@ -84,6 +86,10 @@ public class Game implements Runnable {
 
 		// Start game
 		court.reset();
+	}
+
+	public static void toggleUndo(boolean isEnabled) {
+	    undo.setEnabled(isEnabled);
 	}
 
 	public static void main(String[] args) {

@@ -88,34 +88,18 @@ public class ChessBoard { // extends JPanel {
                                 oldX = iFinal;
                                 oldY = jFinal;
                                 oldPieces = copyPiecesToOld(chessPieces);
-                                
-                                if (Arrays.equals(oldPieces, chessPieces)) {
-                                    System.out.println("YA MAMA #1 WORKED");
-                                } else {
-                                    System.out.println("lol you fail #1");
-                                }
-                                
                             } else if (isClicked) {
-                                if (Arrays.equals(oldPieces, chessPieces)) {
-                                    System.out.println("YA MAMA #2 WORKED");
-                                } else {
-                                    System.out.println("lol you fail #2");
-                                }
                                 ChessPiece temp = chessPieces[oldX][oldY];
                                 chessPieces[oldX][oldY] = null;
                                 chessPieces[iFinal][jFinal] = temp;
                                 isClicked = false;
+                                Game.toggleUndo(true);
                                 if (chessPieces[iFinal][jFinal].isWhite()) {
                                     whiteScore++;
                                     isWhitesMove = false;
                                 } else {
                                     blackScore++;
                                     isWhitesMove = true;
-                                }
-                                if (!Arrays.equals(oldPieces, chessPieces)) {
-                                    System.out.println("YA MAMA #2.5 WORKED");
-                                } else {
-                                    System.out.println("lol you fail #2.5");
                                 }
                             }
                             repaint();
@@ -188,20 +172,13 @@ public class ChessBoard { // extends JPanel {
     }
 
     public void undo() {
-        if (!Arrays.equals(oldPieces, chessPieces)) {
-            System.out.println("We're Good here");
-        }
        chessPieces = oldPieces.clone();
-       if (Arrays.equals(oldPieces, chessPieces)) {
-           System.out.println("YA MAMA #3 WORKED");
-       } else {
-           System.out.println("lol you fail #3");
-       }
        isWhitesMove = !isWhitesMove;
+       Game.toggleUndo(false);
        // TODO: Undo score changes
        repaint();
     }
-
+    
     public void repaint() {
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
