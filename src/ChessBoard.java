@@ -183,33 +183,6 @@ public class ChessBoard {
         return chessPieces;
     }
     
-//    public boolean isValidMove(int i, int j, Coords c) {
-//        // Assume piece is pawn
-//        int x = c.getfst();
-//        int y = c.getlst();
-//        int incr = chessPieces[i][j].isWhite() ? -1 : 1;
-//
-//        if (x < 0 || x > 7 || y < 0 || y > 7) {
-//            return false;
-//        }
-//        
-//        if(chessPieces[x][y] != null) {
-//            if (i + incr == x && j + incr == y) 
-//                return true;
-//            else if (i + incr == x && j - incr == y) 
-//                return true;
-//            else 
-//                return false;
-//        } else {
-//            if (i + incr == x && j == y) 
-//                return true;
-//            else if (i + 2 * incr == x && j == y) 
-//                return true;
-//            else 
-//                return false;
-//        }
-//    }
-
     private void setDefaultBGColors() {
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
