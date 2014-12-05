@@ -28,7 +28,7 @@ public class Bishop implements ChessPiece {
     }
 
     @Override
-    public boolean isValidMove(Coords coord) {
+    public boolean isValidMove(Coords c) {
         // TODO Auto-generated method stub
         return false;
     }

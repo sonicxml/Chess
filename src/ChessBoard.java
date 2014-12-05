@@ -206,6 +206,7 @@ public class ChessBoard {
 
     private void togglePossibleMoves(int i, int j, Set<Coords> coords) {
         for (Coords c : coords) {
+            System.out.println("ay yo");
             toggleBackground(c.getfst() + 1, c.getlst() + 1);
         }
     }

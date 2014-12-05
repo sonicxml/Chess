@@ -6,6 +6,7 @@ public class Rook implements ChessPiece {
     private Coords coords;
     public final boolean isWhite;
     private Set<Coords> possibleMoves;
+    private ChessPiece[][] chessPieces;
 
     public Rook(Coords coords, boolean isWhite) {
         this.coords = coords;
@@ -28,9 +29,35 @@ public class Rook implements ChessPiece {
     }
 
     @Override
-    public boolean isValidMove(Coords coord) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isValidMove(Coords c) {
+        int i = coords.getfst();
+        int j = coords.getlst();
+        int x = c.getfst();
+        int y = c.getlst();
+        
+        chessPieces = ChessBoard.getBoard();
+
+        int incr = chessPieces[i][j].isWhite() ? -1 : 1;
+
+        if (x < 0 || x > 7 || y < 0 || y > 7) {
+            return false;
+        }
+        
+        if(chessPieces[x][y] != null) {
+            if (i + incr == x && j + incr == y) 
+                return true;
+            else if (i + incr == x && j - incr == y) 
+                return true;
+            else 
+                return false;
+        } else {
+            if (i + incr == x && j == y) 
+                return true;
+            else if (i + 2 * incr == x && j == y) 
+                return true;
+            else 
+                return false;
+        }
     }
 
     @Override

@@ -6,7 +6,7 @@ public interface ChessPiece {
     
     public Set<Coords> getPossibleMoves();
     
-    public boolean isValidMove(Coords coord);
+    public boolean isValidMove(Coords c);
     
     public String getIcon();
     
