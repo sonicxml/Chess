@@ -2,11 +2,11 @@ import java.util.Set;
 
 public interface ChessPiece {
 
-    public boolean move(Coords<Integer, Integer> coord);
+    public boolean move(Coords coord);
     
-    public Set<Coords<Integer, Integer>> getPossibleMoves();
+    public Set<Coords> getPossibleMoves();
     
-    public boolean isValidMove(Coords<Integer, Integer> coord);
+    public boolean isValidMove(Coords coord);
     
     public String getIcon();
     

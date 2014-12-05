@@ -88,8 +88,8 @@ public class Game implements Runnable {
 		court.reset();
 	}
 
-	public static void toggleUndo(boolean isEnabled) {
-	    undo.setEnabled(isEnabled);
+	public static void toggleUndo(boolean bool) {
+	    undo.setEnabled(bool);
 	}
 
 	public static void main(String[] args) {

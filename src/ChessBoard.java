@@ -7,18 +7,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ChessBoard { // extends JPanel {
+public class ChessBoard {
     JLabel mesg; // Current message to player
-    
+
     private JButton[][] chessSquares = new JButton[10][10];
-    
+
     private ChessPiece[][] chessPieces = new ChessPiece[8][8];
     private ChessPiece[][] oldPieces;
     int oldX;
@@ -26,10 +26,10 @@ public class ChessBoard { // extends JPanel {
 
     private final Dimension SIZE = new Dimension(750, 750);
     JPanel frame = new JPanel(new GridBagLayout());
-    
+
     Color DARK_TAN = new Color(190, 120, 50);
     Color LIGHT_TAN = new Color(247, 206, 132);
-    
+
     int whiteScore = 0;
     int blackScore = 0;
     boolean isWhitesMove = true;
@@ -42,7 +42,7 @@ public class ChessBoard { // extends JPanel {
         frame.setMinimumSize(SIZE);
         frame.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         frame.setFocusable(true);
-        
+
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
                 JButton square = new JButton();
@@ -63,45 +63,23 @@ public class ChessBoard { // extends JPanel {
                     square.setBackground((i % 2 != j % 2) ? DARK_TAN
                             : LIGHT_TAN);
 
-                    final int iFinal = i - 1;
-                    final int jFinal = j - 1;
+                    final int iF = i;
+                    final int jF = j;
 
                     square.addMouseListener(new MouseAdapter() {
                         public void mouseEntered(MouseEvent e) {
-                            toggleBackground(iFinal + 1, jFinal + 1);
+                            toggleBackground(iF, jF);
                         }
 
                         public void mouseExited(MouseEvent e) {
-                            toggleBackground(iFinal + 1, jFinal + 1);
+                            toggleBackground(iF, jF);
                         }
                     });
 
                     square.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            toggleBackground(5, 5);
-                            if (chessPieces[iFinal][jFinal] != null &&
-                                !isClicked && 
-                                chessPieces[iFinal][jFinal].isWhite() == 
-                                isWhitesMove) {
-                                
-                                isClicked = true;
-                                oldX = iFinal;
-                                oldY = jFinal;
-                                oldPieces = copyPiecesToOld(chessPieces);
-                            } else if (isClicked) {
-                                ChessPiece temp = chessPieces[oldX][oldY];
-                                chessPieces[oldX][oldY] = null;
-                                chessPieces[iFinal][jFinal] = temp;
-                                isClicked = false;
-                                Game.toggleUndo(true);
-                                if (chessPieces[iFinal][jFinal].isWhite()) {
-                                    whiteScore++;
-                                    isWhitesMove = false;
-                                } else {
-                                    blackScore++;
-                                    isWhitesMove = true;
-                                }
-                            }
+                            // chessPieces is offset by 1 in each direction
+                            actionLogic(iF - 1, jF - 1);
                             repaint();
                         }
                     });
@@ -120,12 +98,12 @@ public class ChessBoard { // extends JPanel {
         setDefaultBGColors();
         whiteScore = 0;
         blackScore = 0;
+        isClicked = false;
         
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
                 if (i < 2 || i > 5) {
-                    Coords<Integer, Integer> location = 
-                            new Coords<Integer, Integer>(i, j);
+                    Coords location = new Coords(i, j);
                     boolean isWhite = (i > 5);
                     if (i == 1 || i == 6) {
                         // Pawn
@@ -152,7 +130,7 @@ public class ChessBoard { // extends JPanel {
                 }
             }
         }
-        
+
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
                 int i2 = i + 1;
@@ -166,19 +144,19 @@ public class ChessBoard { // extends JPanel {
                 }
             }
         }
-        this.mesg.setText("New Game! It's White's move. White: " 
-        + Integer.toString(whiteScore) + ", Black: " 
-        + Integer.toString(blackScore));
+        this.mesg.setText("New Game! It's White's move. White: "
+                + Integer.toString(whiteScore) + ", Black: "
+                + Integer.toString(blackScore));
     }
 
     public void undo() {
-       chessPieces = oldPieces.clone();
-       isWhitesMove = !isWhitesMove;
-       Game.toggleUndo(false);
-       // TODO: Undo score changes
-       repaint();
+        chessPieces = oldPieces.clone();
+        isWhitesMove = !isWhitesMove;
+        Game.toggleUndo(false);
+        // TODO: Undo score changes
+        repaint();
     }
-    
+
     public void repaint() {
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
@@ -193,21 +171,38 @@ public class ChessBoard { // extends JPanel {
                 }
             }
         }
-        String move = new String((isWhitesMove) ? "White's move" : 
-                                                  "Black's move");
-        this.mesg.setText("It's " + move + " . White: " 
-        + Integer.toString(whiteScore) + ", Black: " 
-        + Integer.toString(blackScore));
+        String move = new String((isWhitesMove) ? "White's move"
+                : "Black's move");
+        this.mesg.setText("It's " + move + " . White: "
+                + Integer.toString(whiteScore) + ", Black: "
+                + Integer.toString(blackScore));
 
     }
-    
+
+    public boolean isValidMove(int i, int j, Coords c) {
+        // Assume piece is pawn
+        int x = c.getfst();
+        int y = c.getlst();
+        int incr = chessPieces[i][j].isWhite() ? -1 : 1;
+
+        if(chessPieces[x][y] != null) {
+            if (i + incr == x && j + incr == y) return true;
+            else if (i + incr == x && j - incr == y) return true;
+            else return false;
+        } else {
+            if (i + incr == x && j == y) return true;
+            else if (i + 2 * incr == x && j == y) return true;
+            else return false;
+        }
+    }
+
     private void setDefaultBGColors() {
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
                 if (i > 0 && i < 9 && j > 0 && j < 9) {
                     chessSquares[i][j]
                             .setBackground((i % 2 != j % 2) ? DARK_TAN
-                                                            : LIGHT_TAN);
+                                    : LIGHT_TAN);
                 }
             }
         }
@@ -216,24 +211,64 @@ public class ChessBoard { // extends JPanel {
     private void toggleBackground(int i, int j) {
         if (chessSquares[i][j].getBackground() == Color.YELLOW) {
             chessSquares[i][j].setBackground((i % 2 != j % 2) ? DARK_TAN
-                                                              : LIGHT_TAN);
+                    : LIGHT_TAN);
         } else {
             chessSquares[i][j].setBackground(Color.YELLOW);
         }
     }
 
+    private void togglePossibleMoves(int i, int j, Set<Coords> coords) {
+        for (Coords c : coords) {
+            if (isValidMove(i, j, c)) {
+                toggleBackground(c.getfst() + 1, c.getlst() + 1);
+            }
+        }
+    }
+    
     private void setLabelFont(JButton button) {
         Font f = button.getFont();
         button.setFont(f.deriveFont(f.getStyle(), 25));
     }
-    
-    private ChessPiece[][] copyPiecesToOld(ChessPiece[][] input) {
+
+    private void actionLogic(int iF, int jF) {
+        if (chessPieces[iF][jF] != null && !isClicked && 
+            chessPieces[iF][jF].isWhite() == isWhitesMove) {
+            
+            Set<Coords> possMoves = 
+                    chessPieces[iF][jF].getPossibleMoves();
+            togglePossibleMoves(iF, jF, possMoves);
+            isClicked = true;
+            oldX = iF;
+            oldY = jF;
+            oldPieces = copyChessPieces(chessPieces);
+        } else if (isClicked) {
+            Set<Coords> possMoves = 
+                 chessPieces[oldX][oldY].getPossibleMoves();
+            togglePossibleMoves(oldX, oldY, possMoves);
+            isClicked = false;
+            if(isValidMove(oldX, oldY, new Coords(iF, jF))) {
+                chessPieces[oldX][oldY].move(new Coords(iF, jF));
+                ChessPiece temp = chessPieces[oldX][oldY];
+                chessPieces[oldX][oldY] = null;
+                chessPieces[iF][jF] = temp;
+                Game.toggleUndo(true);
+                if (chessPieces[iF][jF].isWhite()) {
+                    whiteScore++;
+                    isWhitesMove = false;
+                } else {
+                    blackScore++;
+                    isWhitesMove = true;
+                }
+            } 
+        }
+    }
+        
+    private ChessPiece[][] copyChessPieces(ChessPiece[][] input) {
         if (input == null) {
             throw new IllegalArgumentException("Null ChessPieces");
         }
-        
-        ChessPiece[][] target = 
-                new ChessPiece[input[0].length][input[1].length];
+
+        ChessPiece[][] target = new ChessPiece[input[0].length][input[1].length];
         for (int i = 0; i < input[0].length; i++) {
             for (int j = 0; j < input[1].length; j++) {
                 if (input[i][j] == null) {
@@ -244,5 +279,5 @@ public class ChessBoard { // extends JPanel {
             }
         }
         return target;
-  }
+    }
 }
