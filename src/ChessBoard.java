@@ -19,7 +19,7 @@ public class ChessBoard {
 
     private JButton[][] chessSquares = new JButton[10][10];
 
-    private ChessPiece[][] chessPieces = new ChessPiece[8][8];
+    private static ChessPiece[][] chessPieces = new ChessPiece[8][8];
     private ChessPiece[][] oldPieces;
     int oldX;
     int oldY;
@@ -179,22 +179,36 @@ public class ChessBoard {
 
     }
 
-    public boolean isValidMove(int i, int j, Coords c) {
-        // Assume piece is pawn
-        int x = c.getfst();
-        int y = c.getlst();
-        int incr = chessPieces[i][j].isWhite() ? -1 : 1;
-
-        if(chessPieces[x][y] != null) {
-            if (i + incr == x && j + incr == y) return true;
-            else if (i + incr == x && j - incr == y) return true;
-            else return false;
-        } else {
-            if (i + incr == x && j == y) return true;
-            else if (i + 2 * incr == x && j == y) return true;
-            else return false;
-        }
+    public static ChessPiece[][] getBoard() {
+        return chessPieces;
     }
+    
+//    public boolean isValidMove(int i, int j, Coords c) {
+//        // Assume piece is pawn
+//        int x = c.getfst();
+//        int y = c.getlst();
+//        int incr = chessPieces[i][j].isWhite() ? -1 : 1;
+//
+//        if (x < 0 || x > 7 || y < 0 || y > 7) {
+//            return false;
+//        }
+//        
+//        if(chessPieces[x][y] != null) {
+//            if (i + incr == x && j + incr == y) 
+//                return true;
+//            else if (i + incr == x && j - incr == y) 
+//                return true;
+//            else 
+//                return false;
+//        } else {
+//            if (i + incr == x && j == y) 
+//                return true;
+//            else if (i + 2 * incr == x && j == y) 
+//                return true;
+//            else 
+//                return false;
+//        }
+//    }
 
     private void setDefaultBGColors() {
         for (int i = 0; i < chessSquares[0].length; i++) {
@@ -219,9 +233,7 @@ public class ChessBoard {
 
     private void togglePossibleMoves(int i, int j, Set<Coords> coords) {
         for (Coords c : coords) {
-            if (isValidMove(i, j, c)) {
-                toggleBackground(c.getfst() + 1, c.getlst() + 1);
-            }
+            toggleBackground(c.getfst() + 1, c.getlst() + 1);
         }
     }
     
@@ -246,8 +258,7 @@ public class ChessBoard {
                  chessPieces[oldX][oldY].getPossibleMoves();
             togglePossibleMoves(oldX, oldY, possMoves);
             isClicked = false;
-            if(isValidMove(oldX, oldY, new Coords(iF, jF))) {
-                chessPieces[oldX][oldY].move(new Coords(iF, jF));
+            if(chessPieces[oldX][oldY].move(new Coords(iF, jF))) {
                 ChessPiece temp = chessPieces[oldX][oldY];
                 chessPieces[oldX][oldY] = null;
                 chessPieces[iF][jF] = temp;
