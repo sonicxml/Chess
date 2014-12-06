@@ -3,8 +3,8 @@ import java.util.Set;
 
 public class Pawn implements ChessPiece {
 
-    private Coords coords;
     public final boolean isWhite;
+    private Coords coords;
     private Set<Coords> possibleMoves;
 
     public Pawn(Coords coords, boolean isWhite) {
@@ -34,29 +34,40 @@ public class Pawn implements ChessPiece {
 
         int x = coords.getfst();
         int y = coords.getlst();
+        int i = x;
+        int j = y;
         Coords move;
+        ChessPiece[][] chessPieces = BoardState.getBoard();
 
         // White moves up the board, black moves down
         int incr = isWhite ? -1 : 1;
 
         if (x == 1 || x == 6) {
-            move = new Coords(x + 2 * incr, y);
-            if (isValidMove(move)) {
+            i = x + 2 * incr;
+            j = y;
+            move = new Coords(i, j);
+            if (chessPieces[i][j] == null) {
                 possibleMoves.add(move);
             }
         }
 
         // Forward move
-        move = new Coords(x + incr, y);
-        if (isValidMove(move))
+        i = x + incr;
+        j = y;
+        move = new Coords(i, j);
+        if (chessPieces[i][j] == null)
             possibleMoves.add(move);
         // Attacking move 1
-        move = new Coords(x + incr, y + incr);
-        if (isValidMove(move))
+        i = x + incr;
+        j = y + incr;
+        move = new Coords(i, j);
+        if (chessPieces[i][j] != null && chessPieces[i][j].isWhite() != isWhite)
             possibleMoves.add(move);
         // Attacking move 2
-        move = new Coords(x + incr, y - incr);
-        if (isValidMove(move))
+        i = x + incr;
+        j = y - incr;
+        move = new Coords(i,j);
+        if (chessPieces[j][j] != null && chessPieces[j][j].isWhite() != isWhite)
             possibleMoves.add(move);
 
         return possibleMoves;
@@ -64,34 +75,7 @@ public class Pawn implements ChessPiece {
 
     @Override
     public boolean isValidMove(Coords c) {
-        int i = coords.getfst();
-        int j = coords.getlst();
-        int x = c.getfst();
-        int y = c.getlst();
-
-        ChessPiece[][] chessPieces = BoardState.getBoard();
-
-        int incr = isWhite ? -1 : 1;
-
-        if (x < 0 || x > 7 || y < 0 || y > 7) {
-            return false;
-        }
-
-        if (chessPieces[x][y] != null && chessPieces[x][y].isWhite() != isWhite) {
-            if (i + incr == x && j + incr == y)
-                return true;
-            else if (i + incr == x && j - incr == y)
-                return true;
-            else
-                return false;
-        } else {
-            if (i + incr == x && j == y)
-                return true;
-            else if (i + 2 * incr == x && j == y)
-                return true;
-            else
-                return false;
-        }
+        return possibleMoves.contains(c);
     }
 
     @Override
