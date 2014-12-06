@@ -26,13 +26,30 @@ public class King implements ChessPiece {
 
     @Override
     public Set<Coords> getPossibleMoves() {
+        possibleMoves.removeAll(possibleMoves);
+
+        int x = coords.getfst();
+        int y = coords.getlst();
+        ChessPiece[][] chessPieces = BoardState.getBoard();
+        Coords move;
+
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                int p = x + i;
+                int q = y + j;
+                if (chessPieces[p][q] != null &&
+                        chessPieces[p][q].isWhite() != isWhite) {
+                    move = new Coords(p, q);
+                    possibleMoves.add(move);
+                }
+            }
+        }
         return possibleMoves;
     }
 
     @Override
     public boolean isValidMove(Coords c) {
-        // TODO Auto-generated method stub
-        return false;
+        return possibleMoves.contains(c);
     }
 
     @Override
