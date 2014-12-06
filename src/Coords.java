@@ -3,44 +3,39 @@ public class Coords implements Comparable<Coords> {
     private int lst; 
     
     public Coords(int fst, int lst) { 
-      this.fst = fst; 
-      this.lst = lst; 
+        this.fst = fst;
+        this.lst = lst;
     } 
     
     public void modify(int fst, int lst) {
         this.fst = fst;
         this.lst = lst;
     }
-    
+
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + fst;
-        result = prime * result + lst;
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Coords coords = (Coords) o;
+
+        if (fst != coords.fst) return false;
+        if (lst != coords.lst) return false;
+
+        return true;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof Coords))
-            return false;
-        Coords other = (Coords) obj;
-        if (fst != other.fst)
-            return false;
-        if (lst != other.lst)
-            return false;
-        return true;
+    public int hashCode() {
+        int result = fst;
+        result = 31 * result + lst;
+        return result;
     }
 
     public int getfst() {
         return this.fst;
     }
-    
+
     public int getlst() {
         return this.lst;
     }
