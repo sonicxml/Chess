@@ -69,7 +69,7 @@ public class Pawn implements ChessPiece {
         int x = c.getfst();
         int y = c.getlst();
 
-        ChessPiece[][] chessPieces = ChessBoard.getBoard();
+        ChessPiece[][] chessPieces = BoardState.getBoard();
 
         int incr = isWhite ? -1 : 1;
 

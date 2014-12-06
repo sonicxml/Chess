@@ -34,7 +34,7 @@ public class Rook implements ChessPiece {
         int x = c.getfst();
         int y = c.getlst();
         
-        ChessPiece[][] chessPieces = ChessBoard.getBoard();
+        ChessPiece[][] chessPieces = BoardState.getBoard();
 
         int incr = chessPieces[i][j].isWhite() ? -1 : 1;
 

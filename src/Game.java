@@ -41,7 +41,7 @@ public class Game implements Runnable {
 		// Game Heading
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				court.reset();
+				ChessBoard.reset(court);
 				status.setText(court.mesg.getText());
 			}
 		});
@@ -85,7 +85,7 @@ public class Game implements Runnable {
 		frame.setVisible(true);
 
 		// Start game
-		court.reset();
+		ChessBoard.reset(court);
 	}
 
 	public static void toggleUndo(boolean bool) {
