@@ -15,9 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ChessBoard {
-    JLabel mesg; // Current message to player
+    static JLabel mesg; // Current message to player
 
-    private JButton[][] chessSquares = new JButton[10][10];
+    private static JButton[][] chessSquares = new JButton[10][10];
 
     private static ChessPiece[][] chessPieces = new ChessPiece[8][8];
 
@@ -27,10 +27,10 @@ public class ChessBoard {
     Color DARK_TAN = new Color(190, 120, 50);
     Color LIGHT_TAN = new Color(247, 206, 132);
 
-    int whiteScore = 0;
-    int blackScore = 0;
-    boolean isWhitesMove = true;
-    boolean isClicked = false;
+    static int whiteScore = 0;
+    static int blackScore = 0;
+    static boolean isWhitesMove = true;
+    static boolean isClicked = false;
 
     // For the Undo button and 3 move stalemate
     private ChessPiece[][] oldPieces;
@@ -82,7 +82,7 @@ public class ChessBoard {
                         public void actionPerformed(ActionEvent e) {
                             // chessPieces is offset by 1 in each direction
                             actionLogic(iF - 1, jF - 1);
-                            repaint();
+                            repaint("");
                         }
                     });
                 }
@@ -157,10 +157,11 @@ public class ChessBoard {
         isWhitesMove = !isWhitesMove;
         Game.toggleUndo(false);
         // TODO: Undo score changes
-        repaint();
+        repaint("");
     }
 
-    public void repaint() {
+    public static void repaint(String message) {
+        message = (message != null) ? message : "";
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
                 int i2 = i + 1;
@@ -176,7 +177,7 @@ public class ChessBoard {
         }
         String move = new String((isWhitesMove) ? "White's move"
                 : "Black's move");
-        this.mesg.setText("It's " + move + " . White: "
+        mesg.setText(message + " It's " + move + " . White: "
                 + Integer.toString(whiteScore) + ", Black: "
                 + Integer.toString(blackScore));
 
@@ -213,7 +214,7 @@ public class ChessBoard {
         }
     }
 
-    private void setLabelFont(JButton button) {
+    private static void setLabelFont(JButton button) {
         Font f = button.getFont();
         button.setFont(f.deriveFont(f.getStyle(), 25));
     }
