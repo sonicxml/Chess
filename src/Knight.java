@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -10,6 +11,7 @@ public class Knight implements ChessPiece {
     public Knight(Coords coords, boolean isWhite) {
         this.coords = coords;
         this.isWhite = isWhite;
+        possibleMoves = new HashSet<Coords>();
     }
 
     @Override
