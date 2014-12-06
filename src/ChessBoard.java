@@ -137,7 +137,8 @@ public class ChessBoard {
                     chessSquares[i2][j2].setText("");
                     setLabelFont(chessSquares[i2][j2]);
                 } else {
-                    chessSquares[i2][j2].setText(BoardState.chessPieces[i][j].getIcon());
+                    chessSquares[i2][j2].setText(
+                            BoardState.chessPieces[i][j].getIcon());
                     setLabelFont(chessSquares[i2][j2]);
                 }
             }
@@ -184,7 +185,7 @@ public class ChessBoard {
 
     private void actionLogic(int iF, int jF) {
         if (BoardState.chessPieces[iF][jF] != null && !isClicked &&
-            BoardState.chessPieces[iF][jF].isWhite() == isWhitesMove) {
+                BoardState.chessPieces[iF][jF].isWhite() == isWhitesMove) {
 
             Set<Coords> possMoves =
                     BoardState.chessPieces[iF][jF].getPossibleMoves();
@@ -195,10 +196,10 @@ public class ChessBoard {
             BoardState.oldPieces = copyChessPieces(BoardState.chessPieces);
         } else if (isClicked) {
             Set<Coords> possMoves =
-                 BoardState.chessPieces[oldX][oldY].getPossibleMoves();
+                    BoardState.chessPieces[oldX][oldY].getPossibleMoves();
             togglePossibleMoves(oldX, oldY, possMoves);
             isClicked = false;
-            if(BoardState.chessPieces[oldX][oldY].move(new Coords(iF, jF))) {
+            if (BoardState.chessPieces[oldX][oldY].move(new Coords(iF, jF))) {
                 ChessPiece temp = BoardState.chessPieces[oldX][oldY];
                 BoardState.chessPieces[oldX][oldY] = null;
                 BoardState.chessPieces[iF][jF] = temp;
