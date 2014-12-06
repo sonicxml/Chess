@@ -72,7 +72,7 @@ public class Pawn implements ChessPiece {
 
         chessPieces = ChessBoard.getBoard();
 
-        int incr = chessPieces[i][j].isWhite() ? -1 : 1;
+        int incr = isWhite ? -1 : 1;
 
         if (x < 0 || x > 7 || y < 0 || y > 7) {
             return false;

@@ -99,6 +99,7 @@ public class ChessBoard {
         whiteScore = 0;
         blackScore = 0;
         isClicked = false;
+        isWhitesMove = true;
         
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
@@ -179,7 +180,7 @@ public class ChessBoard {
 
     }
 
-    public static ChessPiece[][] getBoard() {
+    static ChessPiece[][] getBoard() {
         return chessPieces;
     }
     
@@ -206,7 +207,6 @@ public class ChessBoard {
 
     private void togglePossibleMoves(int i, int j, Set<Coords> coords) {
         for (Coords c : coords) {
-            System.out.println("ay yo");
             toggleBackground(c.getfst() + 1, c.getlst() + 1);
         }
     }
