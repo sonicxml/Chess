@@ -9,7 +9,7 @@ public interface ChessPiece {
     public boolean isValidMove(Coords c);
     
     public String getIcon();
-    
+
     public String toString();
     
     public boolean isWhite();

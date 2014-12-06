@@ -20,9 +20,6 @@ public class ChessBoard {
     private JButton[][] chessSquares = new JButton[10][10];
 
     private static ChessPiece[][] chessPieces = new ChessPiece[8][8];
-    private ChessPiece[][] oldPieces;
-    int oldX;
-    int oldY;
 
     private final Dimension SIZE = new Dimension(750, 750);
     JPanel frame = new JPanel(new GridBagLayout());
@@ -34,6 +31,11 @@ public class ChessBoard {
     int blackScore = 0;
     boolean isWhitesMove = true;
     boolean isClicked = false;
+
+    // For the Undo button and 3 move stalemate
+    private ChessPiece[][] oldPieces;
+    int oldX;
+    int oldY;
 
     public ChessBoard(JLabel mesg) {
         GridBagConstraints c = new GridBagConstraints();

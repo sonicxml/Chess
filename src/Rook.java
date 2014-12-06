@@ -6,7 +6,6 @@ public class Rook implements ChessPiece {
     private Coords coords;
     public final boolean isWhite;
     private Set<Coords> possibleMoves;
-    private ChessPiece[][] chessPieces;
 
     public Rook(Coords coords, boolean isWhite) {
         this.coords = coords;
@@ -35,7 +34,7 @@ public class Rook implements ChessPiece {
         int x = c.getfst();
         int y = c.getlst();
         
-        chessPieces = ChessBoard.getBoard();
+        ChessPiece[][] chessPieces = ChessBoard.getBoard();
 
         int incr = chessPieces[i][j].isWhite() ? -1 : 1;
 

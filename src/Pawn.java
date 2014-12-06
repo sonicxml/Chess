@@ -6,7 +6,6 @@ public class Pawn implements ChessPiece {
     private Coords coords;
     public final boolean isWhite;
     private Set<Coords> possibleMoves;
-    private ChessPiece[][] chessPieces;
 
     public Pawn(Coords coords, boolean isWhite) {
         this.coords = coords;
@@ -50,15 +49,15 @@ public class Pawn implements ChessPiece {
         // Forward move
         move = new Coords(x + incr, y);
         if (isValidMove(move))
-            possibleMoves.add(new Coords(x + incr, y));
+            possibleMoves.add(move);
         // Attacking move 1
         move = new Coords(x + incr, y + incr);
         if (isValidMove(move))
-            possibleMoves.add(new Coords(x + incr, y + incr));
+            possibleMoves.add(move);
         // Attacking move 2
         move = new Coords(x + incr, y - incr);
         if (isValidMove(move))
-            possibleMoves.add(new Coords(x + incr, y - incr));
+            possibleMoves.add(move);
 
         return possibleMoves;
     }
@@ -70,7 +69,7 @@ public class Pawn implements ChessPiece {
         int x = c.getfst();
         int y = c.getlst();
 
-        chessPieces = ChessBoard.getBoard();
+        ChessPiece[][] chessPieces = ChessBoard.getBoard();
 
         int incr = isWhite ? -1 : 1;
 
