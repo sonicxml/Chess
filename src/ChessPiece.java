@@ -2,7 +2,7 @@ import java.util.Set;
 
 public interface ChessPiece {
 
-    public boolean move(Coords coord);
+    public boolean move(Coords c);
     
     public Set<Coords> getPossibleMoves();
     

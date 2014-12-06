@@ -14,9 +14,9 @@ public class Pawn implements ChessPiece {
     }
 
     @Override
-    public boolean move(Coords coords) {
-        if (isValidMove(coords)) {
-            this.coords.modify(coords.getfst(), coords.getlst());
+    public boolean move(Coords c) {
+        if (isValidMove(c)) {
+            this.coords.modify(c.getfst(), c.getlst());
             System.out.println("Moving out, diggity dawg!");
             return true;
         } else {

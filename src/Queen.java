@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,8 +15,8 @@ public class Queen implements ChessPiece {
     }
 
     @Override
-    public boolean move(Coords coord) {
-        if (isValidMove(coord)) {
+    public boolean move(Coords c) {
+        if (isValidMove(c)) {
             this.coords.modify(coords.getfst(), coords.getlst());
             return true;
         } else {

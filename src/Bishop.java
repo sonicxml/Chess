@@ -13,9 +13,9 @@ public class Bishop implements ChessPiece {
     }
 
     @Override
-    public boolean move(Coords coord) {
-        if (isValidMove(coords)) {
-            this.coords.modify(coords.getfst(), coords.getlst());
+    public boolean move(Coords c) {
+        if (isValidMove(c)) {
+            this.coords.modify(c.getfst(), c.getlst());
             return true;
         } else {
             return false;
