@@ -19,8 +19,8 @@ public class ChessBoard {
 
     private static JButton[][] chessSquares = new JButton[10][10];
 
-    private final Dimension SIZE = new Dimension(750, 750);
-    JPanel frame = new JPanel(new GridBagLayout());
+    private static final Dimension SIZE = new Dimension(750, 750);
+    static JPanel frame = new JPanel(new GridBagLayout());
 
     static final Color DARK_TAN = new Color(190, 120, 50);
     static final Color LIGHT_TAN = new Color(247, 206, 132);
@@ -29,6 +29,7 @@ public class ChessBoard {
     static int blackScore = 0;
     static boolean isWhitesMove = true;
     static boolean isClicked = false;
+    static boolean isGreen = false;
 
     static int oldX;
     static int oldY;
@@ -44,6 +45,7 @@ public class ChessBoard {
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
                 JButton square = new JButton();
+                square.setBorder(BorderFactory.createLineBorder(Color.green,3));
                 square.setBorderPainted(false);
                 square.setPreferredSize(new Dimension(70, 70));
                 square.setOpaque(true);
@@ -119,7 +121,7 @@ public class ChessBoard {
                 + Integer.toString(blackScore));
     }
 
-    public void undo() {
+    public static void undo() {
         BoardState.chessPieces = BoardState.oldPieces.clone();
         isWhitesMove = !isWhitesMove;
         Game.toggleUndo(false);
@@ -163,19 +165,24 @@ public class ChessBoard {
         }
     }
 
-    private void toggleBackground(int i, int j) {
+    private static void toggleBackground(int i, int j) {
         if (chessSquares[i][j].getBackground() == Color.YELLOW) {
             chessSquares[i][j].setBackground((i % 2 != j % 2) ? DARK_TAN
                     : LIGHT_TAN);
         } else {
             chessSquares[i][j].setBackground(Color.YELLOW);
         }
+        frame.repaint();
     }
 
-    private void togglePossibleMoves(int i, int j, Set<Coords> coords) {
+    private static void togglePossibleMoves(int i, int j, Set<Coords> coords) {
         for (Coords c : coords) {
-            toggleBackground(c.getfst() + 1, c.getlst() + 1);
+            int x = c.getfst() + 1;
+            int y = c.getlst() + 1;
+            chessSquares[x][y].setBorderPainted(!isGreen);
         }
+        isGreen = !isGreen;
+        frame.repaint();
     }
 
     private static void setLabelFont(JButton button) {
@@ -183,7 +190,7 @@ public class ChessBoard {
         button.setFont(f.deriveFont(f.getStyle(), 25));
     }
 
-    private void actionLogic(int iF, int jF) {
+    private static void actionLogic(int iF, int jF) {
         if (BoardState.chessPieces[iF][jF] != null && !isClicked &&
                 BoardState.chessPieces[iF][jF].isWhite() == isWhitesMove) {
 
@@ -215,7 +222,7 @@ public class ChessBoard {
         }
     }
 
-    private ChessPiece[][] copyChessPieces(ChessPiece[][] input) {
+    private static ChessPiece[][] copyChessPieces(ChessPiece[][] input) {
         if (input == null) {
             throw new IllegalArgumentException("Null ChessPieces");
         }
