@@ -26,13 +26,63 @@ public class Knight implements ChessPiece {
 
     @Override
     public Set<Coords> getPossibleMoves() {
+        possibleMoves.removeAll(possibleMoves);
+
+        int x = coords.getfst();
+        int y = coords.getlst();
+        ChessPiece[][] chessPieces = BoardState.getBoard();
+        Coords move;
+
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j = j + 2) {
+                if (i == 0) {
+                    int p = x + j;
+                    int q = y - 2;
+                    move = new Coords(p, q);
+                    if (inBounds(move)) {
+                        if (chessPieces[p][q] != null) {
+                            if (chessPieces[p][q].isWhite() != isWhite) {
+                                possibleMoves.add(move);
+                            }
+                        } else {
+                            possibleMoves.add(move);
+                        }
+                    }
+
+                    p = x + j;
+                    q = y + 2;
+                    move = new Coords(p, q);
+                    if (inBounds(move)) {
+                        if (chessPieces[p][q] != null) {
+                            if (chessPieces[p][q].isWhite() != isWhite) {
+                                possibleMoves.add(move);
+                            }
+                        } else {
+                            possibleMoves.add(move);
+                        }
+                    }
+                } else {
+                    int p = x + i * 2;
+                    int q = y + j;
+                    move = new Coords(p, q);
+                    if (inBounds(move)) {
+                        if (chessPieces[p][q] != null) {
+                            if (chessPieces[p][q].isWhite() != isWhite) {
+                                possibleMoves.add(move);
+                            }
+                        } else {
+                            possibleMoves.add(move);
+                        }
+                    }
+                }
+            }
+        }
         return possibleMoves;
     }
 
     @Override
     public boolean isValidMove(Coords c) {
-        // TODO Auto-generated method stub
-        return false;
+        return possibleMoves.contains(c);
     }
 
     @Override
@@ -48,6 +98,13 @@ public class Knight implements ChessPiece {
     @Override
     public boolean isWhite() {
         return isWhite;
+    }
+
+    private boolean inBounds(Coords c) {
+        int i = c.getfst();
+        int j = c.getlst();
+
+        return !(i > 7 || i < 0 || j > 7 || j < 0);
     }
 
 }

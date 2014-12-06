@@ -26,39 +26,61 @@ public class Rook implements ChessPiece {
 
     @Override
     public Set<Coords> getPossibleMoves() {
+        possibleMoves.removeAll(possibleMoves);
+
+        int x = coords.getfst();
+        int y = coords.getlst();
+        ChessPiece[][] chessPieces = BoardState.getBoard();
+        Coords move;
+
+        for (int i = -1; i < 2; i= i + 2) {
+            try {
+                int scale = 1;
+                int p = x + i * scale;
+                int q = y;
+                while (chessPieces[p][q] == null) {
+                    move = new Coords(p, q);
+                    possibleMoves.add(move);
+                    scale++;
+                    p = x + i * scale;
+                }
+
+                if (chessPieces[p][q] != null &&
+                        chessPieces[p][q].isWhite() != isWhite) {
+                    move = new Coords(p, q);
+                    possibleMoves.add(move);
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                // Do Nothing
+            }
+
+            try {
+                int scale = 1;
+                int p = x;
+                int q = y + i * scale;
+                while (chessPieces[p][q] == null) {
+                    move = new Coords(p, q);
+                    possibleMoves.add(move);
+                    scale++;
+                    q = y + i * scale;
+                }
+
+                if (chessPieces[p][q] != null &&
+                        chessPieces[p][q].isWhite() != isWhite) {
+                    move = new Coords(p, q);
+                    possibleMoves.add(move);
+                }
+
+            } catch (ArrayIndexOutOfBoundsException e) {
+                // Do Nothing
+            }
+        }
         return possibleMoves;
     }
 
     @Override
     public boolean isValidMove(Coords c) {
-        int i = coords.getfst();
-        int j = coords.getlst();
-        int x = c.getfst();
-        int y = c.getlst();
-        
-        ChessPiece[][] chessPieces = BoardState.getBoard();
-
-        int incr = chessPieces[i][j].isWhite() ? -1 : 1;
-
-        if (x < 0 || x > 7 || y < 0 || y > 7) {
-            return false;
-        }
-        
-        if(chessPieces[x][y] != null) {
-            if (i + incr == x && j + incr == y) 
-                return true;
-            else if (i + incr == x && j - incr == y) 
-                return true;
-            else 
-                return false;
-        } else {
-            if (i + incr == x && j == y) 
-                return true;
-            else if (i + 2 * incr == x && j == y) 
-                return true;
-            else 
-                return false;
-        }
+        return possibleMoves.contains(c);
     }
 
     @Override

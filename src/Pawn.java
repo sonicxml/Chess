@@ -57,18 +57,26 @@ public class Pawn implements ChessPiece {
         move = new Coords(i, j);
         if (chessPieces[i][j] == null)
             possibleMoves.add(move);
+
         // Attacking move 1
         i = x + incr;
         j = y + incr;
         move = new Coords(i, j);
-        if (chessPieces[i][j] != null && chessPieces[i][j].isWhite() != isWhite)
-            possibleMoves.add(move);
+        if (inBounds(move)) {
+            if (chessPieces[i][j] != null
+                    && chessPieces[i][j].isWhite() != isWhite)
+                possibleMoves.add(move);
+        }
+
         // Attacking move 2
         i = x + incr;
         j = y - incr;
-        move = new Coords(i,j);
-        if (chessPieces[j][j] != null && chessPieces[j][j].isWhite() != isWhite)
-            possibleMoves.add(move);
+        move = new Coords(i, j);
+        if (inBounds(move)) {
+            if (chessPieces[i][j] != null
+                    && chessPieces[i][j].isWhite() != isWhite)
+                possibleMoves.add(move);
+        }
 
         return possibleMoves;
     }
@@ -93,4 +101,10 @@ public class Pawn implements ChessPiece {
         return isWhite;
     }
 
+    private boolean inBounds(Coords c) {
+        int i = c.getfst();
+        int j = c.getlst();
+
+        return !(i > 7 || i < 0 || j > 7 || j < 0);
+    }
 }
