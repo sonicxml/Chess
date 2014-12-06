@@ -17,7 +17,7 @@ public class Queen implements ChessPiece {
     @Override
     public boolean move(Coords c) {
         if (isValidMove(c)) {
-            this.coords.modify(coords.getfst(), coords.getlst());
+            this.coords.modify(c.getfst(), c.getlst());
             return true;
         } else {
             return false;
@@ -39,6 +39,7 @@ public class Queen implements ChessPiece {
                 try {
                     int p = x + i * scale;
                     int q = y + j * scale;
+
                     while (chessPieces[p][q] == null) {
                         move = new Coords(p, q);
                         possibleMoves.add(move);
@@ -46,6 +47,7 @@ public class Queen implements ChessPiece {
                         p = x + i * scale;
                         q = y + j * scale;
                     }
+
                     if (chessPieces[p][q] != null &&
                             chessPieces[p][q].isWhite() != isWhite) {
                         move = new Coords(p, q);
@@ -77,6 +79,13 @@ public class Queen implements ChessPiece {
     @Override
     public boolean isWhite() {
         return isWhite;
+    }
+
+    private boolean inBounds(Coords c) {
+        int i = c.getfst();
+        int j = c.getlst();
+
+        return !(i > 7 || i < 0 || j > 7 || j < 0);
     }
 
 }
