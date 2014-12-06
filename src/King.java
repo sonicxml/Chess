@@ -37,10 +37,15 @@ public class King implements ChessPiece {
             for (int j = -1; j < 2; j++) {
                 int p = x + i;
                 int q = y + j;
-                if (chessPieces[p][q] != null &&
-                        chessPieces[p][q].isWhite() != isWhite) {
-                    move = new Coords(p, q);
-                    possibleMoves.add(move);
+
+                move = new Coords(p, q);
+                if (inBounds(move)) {
+                    if(chessPieces[p][q] != null &&
+                            chessPieces[p][q].isWhite() != isWhite) {
+                        possibleMoves.add(move);
+                    } else if (chessPieces[p][q] == null) {
+                        possibleMoves.add(move);
+                    }
                 }
             }
         }
@@ -65,6 +70,13 @@ public class King implements ChessPiece {
     @Override
     public boolean isWhite() {
         return isWhite;
+    }
+
+    private boolean inBounds(Coords c) {
+        int i = c.getfst();
+        int j = c.getlst();
+
+        return !(i > 7 || i < 0 || j > 7 || j < 0);
     }
 
 }
