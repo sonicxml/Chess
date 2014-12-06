@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f578fa35-78e8-4dc8-8c29-66c0324d6785" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ChessBoard.java" afterPath="$PROJECT_DIR$/src/ChessBoard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ChessPiece.java" afterPath="$PROJECT_DIR$/src/ChessPiece.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Pawn.java" afterPath="$PROJECT_DIR$/src/Pawn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Queen.java" afterPath="$PROJECT_DIR$/src/Queen.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Rook.java" afterPath="$PROJECT_DIR$/src/Rook.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="hw10.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,16 +38,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChessBoard.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ChessBoard.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ChessBoard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2042" max-vertical-offset="3060">
-              <caret line="235" column="22" selection-start-line="235" selection-start-column="22" selection-end-line="235" selection-end-column="22" />
+            <state vertical-scroll-proportion="2.364532" vertical-offset="405" max-vertical-offset="2610">
+              <caret line="194" column="20" selection-start-line="194" selection-start-column="20" selection-end-line="194" selection-end-column="20" />
               <folding>
                 <element signature="method#ChessBoard#0;class#ChessBoard#0" expanded="false" />
                 <element signature="class#2410:2738" expanded="false" />
-                <element signature="e#6665#6666#0" expanded="true" />
-                <element signature="e#6699#6700#0" expanded="true" />
+                <element signature="e#6657#6658#0" expanded="true" />
+                <element signature="e#6691#6692#0" expanded="true" />
+                <element signature="method#actionLogic#0;class#ChessBoard#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -89,11 +84,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Queen.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Queen.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Queen.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.32019705" vertical-offset="480" max-vertical-offset="1320">
-              <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="1320">
+              <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1868#1869#0" expanded="true" />
@@ -118,11 +113,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/Game.java" />
-        <option value="$PROJECT_DIR$/src/ChessBoard.java" />
         <option value="$PROJECT_DIR$/src/ChessPiece.java" />
         <option value="$PROJECT_DIR$/src/Rook.java" />
         <option value="$PROJECT_DIR$/src/Pawn.java" />
         <option value="$PROJECT_DIR$/src/Queen.java" />
+        <option value="$PROJECT_DIR$/src/ChessBoard.java" />
       </list>
     </option>
   </component>
@@ -457,17 +452,10 @@
           <folding>
             <element signature="method#ChessBoard#0;class#ChessBoard#0" expanded="false" />
             <element signature="class#2410:2738" expanded="false" />
-            <element signature="e#6665#6666#0" expanded="true" />
-            <element signature="e#6699#6700#0" expanded="true" />
+            <element signature="e#6657#6658#0" expanded="true" />
+            <element signature="e#6691#6692#0" expanded="true" />
+            <element signature="method#actionLogic#0;class#ChessBoard#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1200">
-          <caret line="84" column="31" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -503,23 +491,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ChessBoard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2042" max-vertical-offset="3060">
-          <caret line="235" column="22" selection-start-line="235" selection-start-column="22" selection-end-line="235" selection-end-column="22" />
-          <folding>
-            <element signature="method#ChessBoard#0;class#ChessBoard#0" expanded="false" />
-            <element signature="class#2410:2738" expanded="false" />
-            <element signature="e#6665#6666#0" expanded="true" />
-            <element signature="e#6699#6700#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Queen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32019705" vertical-offset="480" max-vertical-offset="1320">
-          <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="1320">
+          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1868#1869#0" expanded="true" />
@@ -530,6 +505,28 @@
             <element signature="e#2081#2082#0" expanded="true" />
             <element signature="e#2127#2128#0" expanded="true" />
             <element signature="e#2157#2158#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1200">
+          <caret line="84" column="31" selection-start-line="84" selection-start-column="31" selection-end-line="84" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ChessBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.364532" vertical-offset="405" max-vertical-offset="2610">
+          <caret line="194" column="20" selection-start-line="194" selection-start-column="20" selection-end-line="194" selection-end-column="20" />
+          <folding>
+            <element signature="method#ChessBoard#0;class#ChessBoard#0" expanded="false" />
+            <element signature="class#2410:2738" expanded="false" />
+            <element signature="e#6657#6658#0" expanded="true" />
+            <element signature="e#6691#6692#0" expanded="true" />
+            <element signature="method#actionLogic#0;class#ChessBoard#0" expanded="false" />
           </folding>
         </state>
       </provider>

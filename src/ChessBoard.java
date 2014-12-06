@@ -102,7 +102,7 @@ public class ChessBoard {
         blackScore = 0;
         isClicked = false;
         isWhitesMove = true;
-        
+
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
                 if (i < 2 || i > 5) {
@@ -185,7 +185,7 @@ public class ChessBoard {
     static ChessPiece[][] getBoard() {
         return chessPieces;
     }
-    
+
     private void setDefaultBGColors() {
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
@@ -212,17 +212,17 @@ public class ChessBoard {
             toggleBackground(c.getfst() + 1, c.getlst() + 1);
         }
     }
-    
+
     private void setLabelFont(JButton button) {
         Font f = button.getFont();
         button.setFont(f.deriveFont(f.getStyle(), 25));
     }
 
     private void actionLogic(int iF, int jF) {
-        if (chessPieces[iF][jF] != null && !isClicked && 
+        if (chessPieces[iF][jF] != null && !isClicked &&
             chessPieces[iF][jF].isWhite() == isWhitesMove) {
-            
-            Set<Coords> possMoves = 
+
+            Set<Coords> possMoves =
                     chessPieces[iF][jF].getPossibleMoves();
             togglePossibleMoves(iF, jF, possMoves);
             isClicked = true;
@@ -230,7 +230,7 @@ public class ChessBoard {
             oldY = jF;
             oldPieces = copyChessPieces(chessPieces);
         } else if (isClicked) {
-            Set<Coords> possMoves = 
+            Set<Coords> possMoves =
                  chessPieces[oldX][oldY].getPossibleMoves();
             togglePossibleMoves(oldX, oldY, possMoves);
             isClicked = false;
@@ -246,10 +246,10 @@ public class ChessBoard {
                     blackScore++;
                     isWhitesMove = true;
                 }
-            } 
+            }
         }
     }
-        
+
     private ChessPiece[][] copyChessPieces(ChessPiece[][] input) {
         if (input == null) {
             throw new IllegalArgumentException("Null ChessPieces");
