@@ -199,7 +199,6 @@ class ChessBoard {
     }
 
     private static void actionLogic(int iF, int jF) {
-        Coords oldLoc = new Coords(0, 0);
         if (BoardState.chessPieces[iF][jF] != null && !isClicked &&
                 BoardState.chessPieces[iF][jF].isWhite() == isWhitesMove) {
 
@@ -209,7 +208,6 @@ class ChessBoard {
             isClicked = true;
             oldX = iF;
             oldY = jF;
-            tempLoc = new Coords(iF, jF);
         } else if (isClicked) {
             Set<Coords> possMoves =
                     BoardState.chessPieces[oldX][oldY].getPossibleMoves();
@@ -220,7 +218,6 @@ class ChessBoard {
             if (s != null) {
                 Game.toggleUndo(true);
                 isWhitesMove = !BoardState.chessPieces[iF][jF].isWhite();
-                oldLoc = new Coords(tempLoc.getfst(), tempLoc.getlst());
                 newLoc = new Coords(iF, jF);
                 repaint(s);
             }
