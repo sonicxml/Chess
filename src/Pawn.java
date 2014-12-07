@@ -17,7 +17,6 @@ public class Pawn extends ChessPiece {
             return possibleMoves; // Empty set - promotion time
         }
 
-        System.out.println(coords);
         int x = coords.getfst();
         int y = coords.getlst();
         int i;

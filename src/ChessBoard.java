@@ -32,7 +32,7 @@ public class ChessBoard {
     static boolean isGreen = false;
 
     // For the Undo button and 3 move stalemate
-    static ChessPiece[][] oldPieces;
+    // static ChessPiece[][] oldPieces;
     static int oldX;
     static int oldY;
     static Coords oldLoc = new Coords(0, 0);
@@ -230,21 +230,21 @@ public class ChessBoard {
         }
     }
 
-    private static ChessPiece[][] copyChessPieces(ChessPiece[][] input) {
-        if (input == null) {
-            throw new IllegalArgumentException("Null ChessPieces");
-        }
-
-        ChessPiece[][] target = new ChessPiece[input[0].length][input[1].length];
-        for (int i = 0; i < input[0].length; i++) {
-            for (int j = 0; j < input[1].length; j++) {
-                if (input[i][j] == null) {
-                    target[i][j] = null;
-                } else {
-                    target[i][j] = input[i][j];
-                }
-            }
-        }
-        return target;
-    }
+//    private static ChessPiece[][] copyChessPieces(ChessPiece[][] input) {
+//        if (input == null) {
+//            throw new IllegalArgumentException("Null ChessPieces");
+//        }
+//
+//        ChessPiece[][] target = new ChessPiece[input[0].length][input[1].length];
+//        for (int i = 0; i < input[0].length; i++) {
+//            for (int j = 0; j < input[1].length; j++) {
+//                if (input[i][j] == null) {
+//                    target[i][j] = null;
+//                } else {
+//                    target[i][j] = input[i][j];
+//                }
+//            }
+//        }
+//        return target;
+//    }
 }
