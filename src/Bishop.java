@@ -30,7 +30,7 @@ public class Bishop implements ChessPiece {
 
         int x = coords.getfst();
         int y = coords.getlst();
-        ChessPiece[][] chessPieces = ChessBoard.getBoard();
+        ChessPiece[][] chessPieces = BoardState.getBoard();
         Coords move;
 
         for (int i = -1; i < 2; i = i + 2) {
