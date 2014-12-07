@@ -25,8 +25,6 @@ public class ChessBoard {
     static final Color DARK_TAN = new Color(190, 120, 50);
     static final Color LIGHT_TAN = new Color(247, 206, 132);
 
-    static int whiteScore = 0;
-    static int blackScore = 0;
     static boolean isWhitesMove = true;
     static boolean isClicked = false;
     static boolean isGreen = false;
@@ -101,8 +99,7 @@ public class ChessBoard {
     public static void reset() {
         setDefaultBGColors();
         BoardState.resetPieces();
-        whiteScore = 0;
-        blackScore = 0;
+        BoardState.resetScores();
         isClicked = false;
         isWhitesMove = true;
 
@@ -120,6 +117,8 @@ public class ChessBoard {
                 }
             }
         }
+        int whiteScore = BoardState.getWhiteScore();
+        int blackScore = BoardState.getBlackScore();
         mesg.setText("New Game! It's White's move. White: "
                 + Integer.toString(whiteScore) + ", Black: "
                 + Integer.toString(blackScore));
@@ -154,6 +153,8 @@ public class ChessBoard {
             }
         }
         String move = (isWhitesMove) ? "White's move" : "Black's move";
+        int whiteScore = BoardState.getWhiteScore();
+        int blackScore = BoardState.getBlackScore();
         mesg.setText(message + " It's " + move + ". White: "
                 + Integer.toString(whiteScore) + ", Black: "
                 + Integer.toString(blackScore));
@@ -218,13 +219,7 @@ public class ChessBoard {
                     BoardState.chessPieces[oldX][oldY].move(new Coords(iF, jF));
             if (s != null) {
                 Game.toggleUndo(true);
-                if (BoardState.chessPieces[iF][jF].isWhite()) {
-                    whiteScore++;
-                    isWhitesMove = false;
-                } else {
-                    blackScore++;
-                    isWhitesMove = true;
-                }
+                isWhitesMove = !BoardState.chessPieces[iF][jF].isWhite();
                 oldLoc = new Coords(tempLoc.getfst(), tempLoc.getlst());
                 newLoc = new Coords(iF, jF);
                 repaint(s);
