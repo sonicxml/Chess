@@ -3,23 +3,16 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
-public class Game implements Runnable {
-    static final JMenuBar menu = new JMenuBar();
-    static final JMenu gameMenu = new JMenu("Game");
-    static final JMenuItem newGame = new JMenuItem("New Game");
-    static final JMenuItem undo = new JMenuItem("Undo");
-    static final JMenu helpMenu = new JMenu("Help");
-    static final JMenuItem instructions = new JMenuItem("Instructions");
-    static final JMenuItem about = new JMenuItem("About this game");
+class Game implements Runnable {
+    private static final JMenuBar menu = new JMenuBar();
+    private static final JMenu gameMenu = new JMenu("Game");
+    private static final JMenuItem newGame = new JMenuItem("New Game");
+    private static final JMenuItem undo = new JMenuItem("Undo");
+    private static final JMenu helpMenu = new JMenu("Help");
+    private static final JMenuItem instructions = new JMenuItem("Instructions");
+    private static final JMenuItem about = new JMenuItem("About this game");
 
 	public void run() {
 		final JFrame frame = new JFrame("Chess");
@@ -33,7 +26,7 @@ public class Game implements Runnable {
 
 		// Main playing area
 		final ChessBoard court = new ChessBoard(status);
-		frame.add(court.frame, BorderLayout.CENTER);
+		frame.add(ChessBoard.frame, BorderLayout.CENTER);
 
 		
 		menu.setVisible(true);
@@ -42,14 +35,14 @@ public class Game implements Runnable {
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ChessBoard.reset();
-				status.setText(court.mesg.getText());
+				status.setText(ChessBoard.mesg.getText());
 			}
 		});
 		gameMenu.add(newGame);
 		
 		undo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                court.undo();
+                ChessBoard.undo();
             }
         });
         gameMenu.add(undo); 
@@ -81,7 +74,7 @@ public class Game implements Runnable {
 		// Put the frame on the screen
 	    frame.setMinimumSize(new Dimension(800, 820));
 		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 
 		// Start game

@@ -1,7 +1,7 @@
 public class BoardState {
-    static ChessPiece[][] chessPieces = new ChessPiece[8][8];
-    static int whiteScore = 0;
-    static int blackScore = 0;
+    static final ChessPiece[][] chessPieces = new ChessPiece[8][8];
+    private static int whiteScore = 0;
+    private static int blackScore = 0;
 
     private static enum Piece {
         Pawn,
@@ -89,6 +89,7 @@ public class BoardState {
             case Bishop: return 3;
             case Rook: return 5;
             case Queen: return 9;
+            case King: return 0;
             default: return 0;
         }
     }

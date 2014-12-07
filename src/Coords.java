@@ -1,4 +1,4 @@
-public class Coords implements Comparable<Coords> {
+class Coords implements Comparable<Coords> {
     private int fst; 
     private int lst; 
     
@@ -19,10 +19,8 @@ public class Coords implements Comparable<Coords> {
 
         Coords coords = (Coords) o;
 
-        if (fst != coords.fst) return false;
-        if (lst != coords.lst) return false;
+        return fst == coords.fst && lst == coords.lst;
 
-        return true;
     }
 
     @Override

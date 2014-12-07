@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 
-public class Instructions implements Runnable {
+class Instructions implements Runnable {
     private final Dimension SIZE = new Dimension(300, 200);
     public void run() {
         JFrame frame = new JFrame("Instructions");

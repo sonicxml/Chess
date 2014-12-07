@@ -14,28 +14,27 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ChessBoard {
+class ChessBoard {
     static JLabel mesg; // Current message to player
 
-    private static JButton[][] chessSquares = new JButton[10][10];
+    private static final JButton[][] chessSquares = new JButton[10][10];
 
     private static final Dimension SIZE = new Dimension(750, 750);
-    static JPanel frame = new JPanel(new GridBagLayout());
+    static final JPanel frame = new JPanel(new GridBagLayout());
 
-    static final Color DARK_TAN = new Color(190, 120, 50);
-    static final Color LIGHT_TAN = new Color(247, 206, 132);
+    private static final Color DARK_TAN = new Color(190, 120, 50);
+    private static final Color LIGHT_TAN = new Color(247, 206, 132);
 
-    static boolean isWhitesMove = true;
-    static boolean isClicked = false;
-    static boolean isGreen = false;
+    private static boolean isWhitesMove = true;
+    private static boolean isClicked = false;
+    private static boolean isGreen = false;
 
     // For the Undo button and 3 move stalemate
     // static ChessPiece[][] oldPieces;
-    static int oldX;
-    static int oldY;
-    static Coords oldLoc = new Coords(0, 0);
-    static Coords tempLoc = new Coords(0, 0);
-    static Coords newLoc = new Coords(0, 0);
+    private static int oldX;
+    private static int oldY;
+    private static Coords tempLoc = new Coords(0, 0);
+    private static Coords newLoc = new Coords(0, 0);
 
     public ChessBoard(JLabel mesg) {
         GridBagConstraints c = new GridBagConstraints();
@@ -136,7 +135,7 @@ public class ChessBoard {
         repaint("");
     }
 
-    public static void repaint(String message) {
+    private static void repaint(String message) {
         message = (message != null) ? message : "";
         for (int i = 0; i < BoardState.chessPieces[0].length; i++) {
             for (int j = 0; j < BoardState.chessPieces[1].length; j++) {
@@ -200,6 +199,7 @@ public class ChessBoard {
     }
 
     private static void actionLogic(int iF, int jF) {
+        Coords oldLoc = new Coords(0, 0);
         if (BoardState.chessPieces[iF][jF] != null && !isClicked &&
                 BoardState.chessPieces[iF][jF].isWhite() == isWhitesMove) {
 

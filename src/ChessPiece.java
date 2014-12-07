@@ -1,11 +1,11 @@
 import java.util.Set;
 
-public abstract class ChessPiece {
+abstract class ChessPiece {
 
-    protected boolean isWhite;
-    protected Coords coords;
-    protected Coords oldCoords;
-    protected Set<Coords> possibleMoves;
+    boolean isWhite;
+    Coords coords;
+    private Coords oldCoords;
+    Set<Coords> possibleMoves;
 
     public String move(Coords c) {
         if (isValidMove(c)) {
@@ -19,11 +19,10 @@ public abstract class ChessPiece {
             this.coords.modify(c.getfst(), c.getlst());
             System.out.println("Moving out, diggity dawg!");
 
-            String mesg = ((isWhite) ? "White " : "Black ") + toString()
+            return ((isWhite) ? "White " : "Black ") + toString()
                     + " from " + String.valueOf((char) (j1 + 64))
                     + String.valueOf(i1) + " to " +
                     String.valueOf((char) (j2 + 64)) + String.valueOf(i2) + ".";
-            return mesg;
         } else {
             return null;
         }
@@ -31,7 +30,7 @@ public abstract class ChessPiece {
     
     public abstract Set<Coords> getPossibleMoves();
     
-    public boolean isValidMove(Coords c) {
+    boolean isValidMove(Coords c) {
         return possibleMoves.contains(c);
     }
     
@@ -48,11 +47,10 @@ public abstract class ChessPiece {
         this.coords = oldCoords;
     }
 
-    protected boolean inBounds(Coords c) {
+    boolean inBounds(Coords c) {
         int i = c.getfst();
         int j = c.getlst();
 
         return !(i > 7 || i < 0 || j > 7 || j < 0);
     }
-
 }

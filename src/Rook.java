@@ -23,17 +23,16 @@ public class Rook extends ChessPiece {
             try {
                 int scale = 1;
                 int p = x + i * scale;
-                int q = y;
-                while (chessPieces[p][q] == null) {
-                    move = new Coords(p, q);
+                while (chessPieces[p][y] == null) {
+                    move = new Coords(p, y);
                     possibleMoves.add(move);
                     scale++;
                     p = x + i * scale;
                 }
 
-                if (chessPieces[p][q] != null &&
-                        chessPieces[p][q].isWhite() != isWhite) {
-                    move = new Coords(p, q);
+                if (chessPieces[p][y] != null &&
+                        chessPieces[p][y].isWhite() != isWhite) {
+                    move = new Coords(p, y);
                     possibleMoves.add(move);
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -42,18 +41,17 @@ public class Rook extends ChessPiece {
 
             try {
                 int scale = 1;
-                int p = x;
                 int q = y + i * scale;
-                while (chessPieces[p][q] == null) {
-                    move = new Coords(p, q);
+                while (chessPieces[x][q] == null) {
+                    move = new Coords(x, q);
                     possibleMoves.add(move);
                     scale++;
                     q = y + i * scale;
                 }
 
-                if (chessPieces[p][q] != null &&
-                        chessPieces[p][q].isWhite() != isWhite) {
-                    move = new Coords(p, q);
+                if (chessPieces[x][q] != null &&
+                        chessPieces[x][q].isWhite() != isWhite) {
+                    move = new Coords(x, q);
                     possibleMoves.add(move);
                 }
 
