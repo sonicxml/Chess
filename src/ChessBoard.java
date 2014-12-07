@@ -33,7 +33,6 @@ class ChessBoard {
     // static ChessPiece[][] oldPieces;
     private static int oldX;
     private static int oldY;
-    private static Coords tempLoc = new Coords(0, 0);
     private static Coords newLoc = new Coords(0, 0);
 
     public ChessBoard(JLabel mesg) {
