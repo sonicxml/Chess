@@ -5,6 +5,7 @@ public class Pawn implements ChessPiece {
 
     public final boolean isWhite;
     private Coords coords;
+    private Coords oldCoords;
     private Set<Coords> possibleMoves;
 
     public Pawn(Coords coords, boolean isWhite) {
@@ -16,6 +17,8 @@ public class Pawn implements ChessPiece {
     @Override
     public boolean move(Coords c) {
         if (isValidMove(c)) {
+            oldCoords = new Coords(coords.getfst(), coords.getlst());
+            BoardState.movePiece(coords, c);
             this.coords.modify(c.getfst(), c.getlst());
             System.out.println("Moving out, diggity dawg!");
             return true;
@@ -32,10 +35,11 @@ public class Pawn implements ChessPiece {
             return possibleMoves; // Empty set - promotion time
         }
 
+        System.out.println(coords);
         int x = coords.getfst();
         int y = coords.getlst();
-        int i = x;
-        int j = y;
+        int i;
+        int j;
         Coords move;
         ChessPiece[][] chessPieces = BoardState.getBoard();
 
@@ -99,6 +103,12 @@ public class Pawn implements ChessPiece {
     @Override
     public boolean isWhite() {
         return isWhite;
+    }
+
+    @Override
+    public void undoLastMove() {
+        BoardState.movePiece(this.coords, oldCoords);
+        this.coords = oldCoords;
     }
 
     private boolean inBounds(Coords c) {

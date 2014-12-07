@@ -31,8 +31,13 @@ public class ChessBoard {
     static boolean isClicked = false;
     static boolean isGreen = false;
 
+    // For the Undo button and 3 move stalemate
+    static ChessPiece[][] oldPieces;
     static int oldX;
     static int oldY;
+    static Coords oldLoc = new Coords(0, 0);
+    static Coords tempLoc = new Coords(0, 0);
+    static Coords newLoc = new Coords(0, 0);
 
     public ChessBoard(JLabel mesg) {
         GridBagConstraints c = new GridBagConstraints();
@@ -91,10 +96,10 @@ public class ChessBoard {
                 frame.add(chessSquares[i][j], c);
             }
         }
-        this.mesg = mesg;
+        ChessBoard.mesg = mesg;
     }
 
-    public static void reset(ChessBoard chessBoard) {
+    public static void reset() {
         setDefaultBGColors();
         BoardState.resetPieces();
         whiteScore = 0;
@@ -119,10 +124,14 @@ public class ChessBoard {
         mesg.setText("New Game! It's White's move. White: "
                 + Integer.toString(whiteScore) + ", Black: "
                 + Integer.toString(blackScore));
+        repaint("");
     }
 
     public static void undo() {
-        BoardState.chessPieces = BoardState.oldPieces.clone();
+        isClicked = false;
+        isGreen = false;
+        setDefaultBGColors();
+        BoardState.chessPieces[newLoc.getfst()][newLoc.getlst()].undoLastMove();
         isWhitesMove = !isWhitesMove;
         Game.toggleUndo(false);
         // TODO: Undo score changes
@@ -145,12 +154,11 @@ public class ChessBoard {
                 }
             }
         }
-        String move = new String((isWhitesMove) ? "White's move"
-                : "Black's move");
+        String move = (isWhitesMove) ? "White's move" : "Black's move";
         mesg.setText(message + " It's " + move + " . White: "
                 + Integer.toString(whiteScore) + ", Black: "
                 + Integer.toString(blackScore));
-
+        frame.repaint();
     }
 
     private static void setDefaultBGColors() {
@@ -160,6 +168,7 @@ public class ChessBoard {
                     chessSquares[i][j]
                             .setBackground((i % 2 != j % 2) ? DARK_TAN
                                     : LIGHT_TAN);
+                    chessSquares[i][j].setBorderPainted(false);
                 }
             }
         }
@@ -175,7 +184,7 @@ public class ChessBoard {
         frame.repaint();
     }
 
-    private static void togglePossibleMoves(int i, int j, Set<Coords> coords) {
+    private static void togglePossibleMoves(Set<Coords> coords) {
         for (Coords c : coords) {
             int x = c.getfst() + 1;
             int y = c.getlst() + 1;
@@ -196,20 +205,17 @@ public class ChessBoard {
 
             Set<Coords> possMoves =
                     BoardState.chessPieces[iF][jF].getPossibleMoves();
-            togglePossibleMoves(iF, jF, possMoves);
+            togglePossibleMoves(possMoves);
             isClicked = true;
             oldX = iF;
             oldY = jF;
-            BoardState.oldPieces = copyChessPieces(BoardState.chessPieces);
+            tempLoc = new Coords(iF, jF);
         } else if (isClicked) {
             Set<Coords> possMoves =
                     BoardState.chessPieces[oldX][oldY].getPossibleMoves();
-            togglePossibleMoves(oldX, oldY, possMoves);
+            togglePossibleMoves(possMoves);
             isClicked = false;
             if (BoardState.chessPieces[oldX][oldY].move(new Coords(iF, jF))) {
-                ChessPiece temp = BoardState.chessPieces[oldX][oldY];
-                BoardState.chessPieces[oldX][oldY] = null;
-                BoardState.chessPieces[iF][jF] = temp;
                 Game.toggleUndo(true);
                 if (BoardState.chessPieces[iF][jF].isWhite()) {
                     whiteScore++;
@@ -218,6 +224,8 @@ public class ChessBoard {
                     blackScore++;
                     isWhitesMove = true;
                 }
+                oldLoc = new Coords(tempLoc.getfst(), tempLoc.getlst());
+                newLoc = new Coords(iF, jF);
             }
         }
     }

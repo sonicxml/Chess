@@ -13,4 +13,6 @@ public interface ChessPiece {
     public String toString();
     
     public boolean isWhite();
+
+    public void undoLastMove();
 }

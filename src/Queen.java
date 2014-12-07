@@ -4,8 +4,9 @@ import java.util.Set;
 
 public class Queen implements ChessPiece {
     
-    private Coords coords;
     public final boolean isWhite;
+    private Coords coords;
+    private Coords oldCoords;
     private Set<Coords> possibleMoves;
 
     public Queen(Coords coords, boolean isWhite) {
@@ -17,7 +18,10 @@ public class Queen implements ChessPiece {
     @Override
     public boolean move(Coords c) {
         if (isValidMove(c)) {
+            oldCoords = new Coords(coords.getfst(), coords.getlst());
+            BoardState.movePiece(coords, c);
             this.coords.modify(c.getfst(), c.getlst());
+            System.out.println("Moving out, diggity dawg!");
             return true;
         } else {
             return false;
@@ -79,5 +83,11 @@ public class Queen implements ChessPiece {
     @Override
     public boolean isWhite() {
         return isWhite;
+    }
+
+    @Override
+    public void undoLastMove() {
+        BoardState.movePiece(this.coords, oldCoords);
+        this.coords = oldCoords;
     }
 }

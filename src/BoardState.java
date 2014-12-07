@@ -1,7 +1,5 @@
 public class BoardState {
     static ChessPiece[][] chessPieces = new ChessPiece[8][8];
-    // For the Undo button and 3 move stalemate
-    static ChessPiece[][] oldPieces;
 
     public static void resetPieces() {
         for (int i = 0; i < chessPieces[0].length; i++) {
@@ -34,6 +32,17 @@ public class BoardState {
                 }
             }
         }
+    }
+
+    public static void movePiece(Coords oldLoc, Coords newLoc) {
+        int i1 = oldLoc.getfst();
+        int j1 = oldLoc.getlst();
+        int i2 = newLoc.getfst();
+        int j2 = newLoc.getlst();
+
+        ChessPiece temp = chessPieces[i1][j1];
+        BoardState.chessPieces[i1][j1] = null;
+        BoardState.chessPieces[i2][j2] = temp;
     }
 
     static ChessPiece[][] getBoard() {
