@@ -85,7 +85,6 @@ public class ChessBoard {
                         public void actionPerformed(ActionEvent e) {
                             // chessPieces is offset by 1 in each direction
                             actionLogic(iF - 1, jF - 1);
-                            repaint("");
                         }
                     });
                 }
@@ -155,7 +154,7 @@ public class ChessBoard {
             }
         }
         String move = (isWhitesMove) ? "White's move" : "Black's move";
-        mesg.setText(message + " It's " + move + " . White: "
+        mesg.setText(message + " It's " + move + ". White: "
                 + Integer.toString(whiteScore) + ", Black: "
                 + Integer.toString(blackScore));
         frame.repaint();
@@ -215,7 +214,9 @@ public class ChessBoard {
                     BoardState.chessPieces[oldX][oldY].getPossibleMoves();
             togglePossibleMoves(possMoves);
             isClicked = false;
-            if (BoardState.chessPieces[oldX][oldY].move(new Coords(iF, jF))) {
+            String s =
+                    BoardState.chessPieces[oldX][oldY].move(new Coords(iF, jF));
+            if (s != null) {
                 Game.toggleUndo(true);
                 if (BoardState.chessPieces[iF][jF].isWhite()) {
                     whiteScore++;
@@ -226,6 +227,7 @@ public class ChessBoard {
                 }
                 oldLoc = new Coords(tempLoc.getfst(), tempLoc.getlst());
                 newLoc = new Coords(iF, jF);
+                repaint(s);
             }
         }
     }

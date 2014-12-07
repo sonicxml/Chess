@@ -7,15 +7,25 @@ public abstract class ChessPiece {
     protected Coords oldCoords;
     protected Set<Coords> possibleMoves;
 
-    public boolean move(Coords c) {
+    public String move(Coords c) {
         if (isValidMove(c)) {
+            int i1 = coords.getfst() + 1;
+            int j1 = coords.getlst() + 1;
+            int i2 = c.getfst() + 1;
+            int j2 = c.getlst() + 1;
+
             oldCoords = new Coords(coords.getfst(), coords.getlst());
             BoardState.movePiece(coords, c);
             this.coords.modify(c.getfst(), c.getlst());
             System.out.println("Moving out, diggity dawg!");
-            return true;
+
+            String mesg = ((isWhite) ? "White " : "Black ") + toString()
+                    + " from " + String.valueOf((char) (j1 + 64))
+                    + String.valueOf(i1) + " to " +
+                    String.valueOf((char) (j2 + 64)) + String.valueOf(i2) + ".";
+            return mesg;
         } else {
-            return false;
+            return null;
         }
     }
     
