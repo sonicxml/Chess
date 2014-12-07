@@ -1,9 +1,11 @@
 public class BoardState {
-    static ChessPiece[][] chessPieces = new ChessPiece[8][8];
-    // For the Undo button and 3 move stalemate
-    static ChessPiece[][] oldPieces;
+    ChessPiece[][] chessPieces;
 
-    public static void resetPieces() {
+    BoardState() {
+        chessPieces = new ChessPiece[8][8];
+        resetPieces();
+    }
+    public void resetPieces() {
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
                 if (i < 2 || i > 5) {
@@ -36,8 +38,16 @@ public class BoardState {
         }
     }
 
-    static ChessPiece[][] getBoard() {
+    public ChessPiece[][] getBoard() {
         return chessPieces;
     }
 
+    public void modifyboard(ChessPiece[][] old) {
+        if (chessPieces == old) {
+            System.out.println("HOUSTON");
+        } else {
+            System.out.println("NO HOUSTON MAYBE");
+        }
+        chessPieces = old;
+    }
 }

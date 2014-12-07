@@ -30,7 +30,7 @@ public class Knight implements ChessPiece {
 
         int x = coords.getfst();
         int y = coords.getlst();
-        ChessPiece[][] chessPieces = BoardState.getBoard();
+        ChessPiece[][] chessPieces = ChessBoard.getBoard();
         Coords move;
 
         for (int i = -1; i < 2; i++) {

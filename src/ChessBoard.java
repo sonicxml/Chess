@@ -16,6 +16,11 @@ import javax.swing.JPanel;
 
 public class ChessBoard {
     static JLabel mesg; // Current message to player
+    static BoardState board;
+
+    // For the Undo button and 3 move stalemate
+    ChessPiece[][] oldPieces;
+    private ChessPiece[][] temp;
 
     private static JButton[][] chessSquares = new JButton[10][10];
 
@@ -35,6 +40,7 @@ public class ChessBoard {
     static int oldY;
 
     public ChessBoard(JLabel mesg) {
+        board = new BoardState();
         GridBagConstraints c = new GridBagConstraints();
         frame.setPreferredSize(SIZE);
         frame.setMaximumSize(SIZE);
@@ -45,7 +51,7 @@ public class ChessBoard {
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
                 JButton square = new JButton();
-                square.setBorder(BorderFactory.createLineBorder(Color.green,3));
+                square.setBorder(BorderFactory.createLineBorder(Color.green, 3));
                 square.setBorderPainted(false);
                 square.setPreferredSize(new Dimension(70, 70));
                 square.setOpaque(true);
@@ -96,33 +102,28 @@ public class ChessBoard {
 
     public static void reset(ChessBoard chessBoard) {
         setDefaultBGColors();
-        BoardState.resetPieces();
+        board.resetPieces();
         whiteScore = 0;
         blackScore = 0;
         isClicked = false;
         isWhitesMove = true;
 
-        for (int i = 0; i < BoardState.chessPieces[0].length; i++) {
-            for (int j = 0; j < BoardState.chessPieces[1].length; j++) {
-                int i2 = i + 1;
-                int j2 = j + 1;
-                if (BoardState.chessPieces[i][j] == null) {
-                    chessSquares[i2][j2].setText("");
-                    setLabelFont(chessSquares[i2][j2]);
-                } else {
-                    chessSquares[i2][j2].setText(
-                            BoardState.chessPieces[i][j].getIcon());
-                    setLabelFont(chessSquares[i2][j2]);
-                }
-            }
-        }
+        repaint("");
         mesg.setText("New Game! It's White's move. White: "
                 + Integer.toString(whiteScore) + ", Black: "
                 + Integer.toString(blackScore));
     }
 
-    public static void undo() {
-        BoardState.chessPieces = BoardState.oldPieces.clone();
+    public void undo() {
+        isClicked = false;
+        setDefaultBGColors();
+        if (board.chessPieces == oldPieces) {
+            System.out.println("Houston, we have a problem");
+        }
+        board.modifyboard(oldPieces);
+        if (board.chessPieces == oldPieces) {
+            System.out.println("Houston, we don't have a problem");
+        }
         isWhitesMove = !isWhitesMove;
         Game.toggleUndo(false);
         // TODO: Undo score changes
@@ -130,17 +131,21 @@ public class ChessBoard {
     }
 
     public static void repaint(String message) {
+        ChessPiece[][] chessPieces= board.getBoard();
         message = (message != null) ? message : "";
-        for (int i = 0; i < BoardState.chessPieces[0].length; i++) {
-            for (int j = 0; j < BoardState.chessPieces[1].length; j++) {
+        for (int i = 0; i < chessPieces[0].length; i++) {
+            for (int j = 0; j < chessPieces[1].length; j++) {
                 int i2 = i + 1;
                 int j2 = j + 1;
-                if (BoardState.chessPieces[i][j] == null) {
+                if (chessPieces[i][j] == null) {
                     chessSquares[i2][j2].setText("");
                     setLabelFont(chessSquares[i2][j2]);
                 } else {
+                    if (i == 4 && j == 4) {
+                        System.out.println(chessPieces[i][j]);
+                    }
                     chessSquares[i2][j2].setText(
-                            BoardState.chessPieces[i][j].getIcon());
+                            chessPieces[i][j].getIcon());
                     setLabelFont(chessSquares[i2][j2]);
                 }
             }
@@ -150,7 +155,11 @@ public class ChessBoard {
         mesg.setText(message + " It's " + move + " . White: "
                 + Integer.toString(whiteScore) + ", Black: "
                 + Integer.toString(blackScore));
+        frame.repaint();
+    }
 
+    public static ChessPiece[][] getBoard() {
+        return board.getBoard();
     }
 
     private static void setDefaultBGColors() {
@@ -160,6 +169,7 @@ public class ChessBoard {
                     chessSquares[i][j]
                             .setBackground((i % 2 != j % 2) ? DARK_TAN
                                     : LIGHT_TAN);
+                    chessSquares[i][j].setBorderPainted(false);
                 }
             }
         }
@@ -190,28 +200,28 @@ public class ChessBoard {
         button.setFont(f.deriveFont(f.getStyle(), 25));
     }
 
-    private static void actionLogic(int iF, int jF) {
-        if (BoardState.chessPieces[iF][jF] != null && !isClicked &&
-                BoardState.chessPieces[iF][jF].isWhite() == isWhitesMove) {
+    private void actionLogic(int iF, int jF) {
+        if (board.chessPieces[iF][jF] != null && !isClicked &&
+                board.chessPieces[iF][jF].isWhite() == isWhitesMove) {
+            oldPieces = copyChessPieces(board.getBoard());
 
             Set<Coords> possMoves =
-                    BoardState.chessPieces[iF][jF].getPossibleMoves();
+                    board.chessPieces[iF][jF].getPossibleMoves();
             togglePossibleMoves(iF, jF, possMoves);
             isClicked = true;
             oldX = iF;
             oldY = jF;
-            BoardState.oldPieces = copyChessPieces(BoardState.chessPieces);
         } else if (isClicked) {
             Set<Coords> possMoves =
-                    BoardState.chessPieces[oldX][oldY].getPossibleMoves();
+                    board.chessPieces[oldX][oldY].getPossibleMoves();
             togglePossibleMoves(oldX, oldY, possMoves);
             isClicked = false;
-            if (BoardState.chessPieces[oldX][oldY].move(new Coords(iF, jF))) {
-                ChessPiece temp = BoardState.chessPieces[oldX][oldY];
-                BoardState.chessPieces[oldX][oldY] = null;
-                BoardState.chessPieces[iF][jF] = temp;
+            if (board.chessPieces[oldX][oldY].move(new Coords(iF, jF))) {
+                ChessPiece temp = board.chessPieces[oldX][oldY];
+                board.chessPieces[oldX][oldY] = null;
+                board.chessPieces[iF][jF] = temp;
                 Game.toggleUndo(true);
-                if (BoardState.chessPieces[iF][jF].isWhite()) {
+                if (board.chessPieces[iF][jF].isWhite()) {
                     whiteScore++;
                     isWhitesMove = false;
                 } else {
@@ -219,24 +229,25 @@ public class ChessBoard {
                     isWhitesMove = true;
                 }
             }
+            // oldPieces = temp;
         }
     }
 
-    private static ChessPiece[][] copyChessPieces(ChessPiece[][] input) {
+    private ChessPiece[][] copyChessPieces(ChessPiece[][] input) {
         if (input == null) {
             throw new IllegalArgumentException("Null ChessPieces");
         }
 
-        ChessPiece[][] target = new ChessPiece[input[0].length][input[1].length];
+        ChessPiece[][] tgt = new ChessPiece[input[0].length][input[1].length];
         for (int i = 0; i < input[0].length; i++) {
             for (int j = 0; j < input[1].length; j++) {
                 if (input[i][j] == null) {
-                    target[i][j] = null;
+                    tgt[i][j] = null;
                 } else {
-                    target[i][j] = input[i][j];
+                    tgt[i][j] = input[i][j];
                 }
             }
         }
-        return target;
+        return tgt;
     }
 }

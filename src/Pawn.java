@@ -37,7 +37,7 @@ public class Pawn implements ChessPiece {
         int i = x;
         int j = y;
         Coords move;
-        ChessPiece[][] chessPieces = BoardState.getBoard();
+        ChessPiece[][] chessPieces = ChessBoard.getBoard();
 
         // White moves up the board, black moves down
         int incr = isWhite ? -1 : 1;
