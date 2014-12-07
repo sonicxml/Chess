@@ -2,30 +2,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class Bishop implements ChessPiece {
-    
-    public final boolean isWhite;
-    private Coords coords;
-    private Coords oldCoords;
-    private Set<Coords> possibleMoves;
+public class Bishop extends ChessPiece {
 
     public Bishop(Coords coords, boolean isWhite) {
         this.coords = coords;
         this.isWhite = isWhite;
         possibleMoves = new HashSet<Coords>();
-    }
-
-    @Override
-    public boolean move(Coords c) {
-        if (isValidMove(c)) {
-            oldCoords = new Coords(coords.getfst(), coords.getlst());
-            BoardState.movePiece(coords, c);
-            this.coords.modify(c.getfst(), c.getlst());
-            System.out.println("Moving out, diggity dawg!");
-            return true;
-        } else {
-            return false;
-        }
     }
 
     @Override
@@ -64,11 +46,6 @@ public class Bishop implements ChessPiece {
     }
 
     @Override
-    public boolean isValidMove(Coords c) {
-        return possibleMoves.contains(c);
-    }
-
-    @Override
     public String getIcon() {
         return (isWhite) ? "♗" : "♝";
     }
@@ -77,16 +54,4 @@ public class Bishop implements ChessPiece {
     public String toString() {
         return "Bishop";
     }
-
-    @Override
-    public boolean isWhite() {
-        return isWhite;
-    }
-
-    @Override
-    public void undoLastMove() {
-        BoardState.movePiece(this.coords, oldCoords);
-        this.coords = oldCoords;
-    }
-
 }

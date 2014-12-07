@@ -2,30 +2,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class Rook implements ChessPiece {
+public class Rook extends ChessPiece {
     
-    public final boolean isWhite;
-    private Coords coords;
-    private Coords oldCoords;
-    private Set<Coords> possibleMoves;
-
     public Rook(Coords coords, boolean isWhite) {
         this.coords = coords;
         this.isWhite = isWhite;
         possibleMoves = new HashSet<Coords>();
-    }
-
-    @Override
-    public boolean move(Coords c) {
-        if (isValidMove(c)) {
-            oldCoords = new Coords(coords.getfst(), coords.getlst());
-            BoardState.movePiece(coords, c);
-            this.coords.modify(c.getfst(), c.getlst());
-            System.out.println("Moving out, diggity dawg!");
-            return true;
-        } else {
-            return false;
-        }
     }
 
     @Override
@@ -83,11 +65,6 @@ public class Rook implements ChessPiece {
     }
 
     @Override
-    public boolean isValidMove(Coords c) {
-        return possibleMoves.contains(c);
-    }
-
-    @Override
     public String getIcon() {
         return (isWhite) ? "♖" : "♜";
     }
@@ -96,16 +73,4 @@ public class Rook implements ChessPiece {
     public String toString() {
         return "Rook";
     }
-
-    @Override
-    public boolean isWhite() {
-        return isWhite;
-    }
-
-    @Override
-    public void undoLastMove() {
-        BoardState.movePiece(this.coords, oldCoords);
-        this.coords = oldCoords;
-    }
-
 }

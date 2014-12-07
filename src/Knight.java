@@ -2,30 +2,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class Knight implements ChessPiece {
+public class Knight extends ChessPiece {
 
-    public final boolean isWhite;
-    private Coords coords;
-    private Coords oldCoords;
-    private Set<Coords> possibleMoves;
-    
     public Knight(Coords coords, boolean isWhite) {
         this.coords = coords;
         this.isWhite = isWhite;
         possibleMoves = new HashSet<Coords>();
-    }
-
-    @Override
-    public boolean move(Coords c) {
-        if (isValidMove(c)) {
-            oldCoords = new Coords(coords.getfst(), coords.getlst());
-            BoardState.movePiece(coords, c);
-            this.coords.modify(c.getfst(), c.getlst());
-            System.out.println("Moving out, diggity dawg!");
-            return true;
-        } else {
-            return false;
-        }
     }
 
     @Override
@@ -85,11 +67,6 @@ public class Knight implements ChessPiece {
     }
 
     @Override
-    public boolean isValidMove(Coords c) {
-        return possibleMoves.contains(c);
-    }
-
-    @Override
     public String getIcon() {
         return (isWhite) ? "♘" : "♞";
     }
@@ -98,23 +75,4 @@ public class Knight implements ChessPiece {
     public String toString() {
         return "Knight";
     }
-
-    @Override
-    public boolean isWhite() {
-        return isWhite;
-    }
-
-    @Override
-    public void undoLastMove() {
-        BoardState.movePiece(this.coords, oldCoords);
-        this.coords = oldCoords;
-    }
-
-    private boolean inBounds(Coords c) {
-        int i = c.getfst();
-        int j = c.getlst();
-
-        return !(i > 7 || i < 0 || j > 7 || j < 0);
-    }
-
 }
