@@ -1,5 +1,7 @@
 public class BoardState {
     static final ChessPiece[][] chessPieces = new ChessPiece[8][8];
+    static Coords blackKing = new Coords(0, 4);
+    static Coords whiteKing = new Coords(7, 4);
     private static int whiteScore = 0;
     private static int blackScore = 0;
 
@@ -52,6 +54,15 @@ public class BoardState {
         int j2 = newLoc.getlst();
 
         ChessPiece temp = chessPieces[i1][j1];
+
+        if (temp.toString().equals("King")) {
+            if (temp.isWhite()) {
+                whiteKing = newLoc;
+            } else {
+                blackKing = newLoc;
+            }
+        }
+
         chessPieces[i1][j1] = null;
         if (chessPieces[i2][j2] != null) {
             int score = getRelativeValue(
@@ -76,6 +87,26 @@ public class BoardState {
     public static void resetScores() {
         whiteScore = 0;
         blackScore = 0;
+    }
+
+    public static boolean isInCheck(Coords loc, boolean white) {
+        // Coords testCoords = (white) ? whiteKing : blackKing;
+        for (int i = 0; i < chessPieces[0].length; i++) {
+            for (int j = 0; j < chessPieces[1].length; j++) {
+                if (chessPieces[i][j] == null) {
+                    continue;
+                }
+
+                if (chessPieces[i][j].isWhite() != white) {
+                    if (chessPieces[i][j].isValidMove(loc)) {
+                        ChessBoard.repaint(white ? "White " : "Black "
+                        + "is in check!");
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     static ChessPiece[][] getBoard() {

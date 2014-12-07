@@ -19,10 +19,17 @@ abstract class ChessPiece {
             this.coords.modify(c.getfst(), c.getlst());
             System.out.println("Moving out, diggity dawg!");
 
-            return ((isWhite) ? "White " : "Black ") + toString()
+            String mesg = ((isWhite) ? "White " : "Black ") + toString()
                     + " from " + String.valueOf((char) (j1 + 64))
                     + String.valueOf(i1) + " to " +
                     String.valueOf((char) (j2 + 64)) + String.valueOf(i2) + ".";
+
+            Coords kingLoc = isWhite ?
+                    BoardState.blackKing : BoardState.whiteKing;
+            if (BoardState.isInCheck(kingLoc, !isWhite)) {
+                mesg += (isWhite() ? " Black " : " White ") + "is in check!";
+            }
+            return mesg;
         } else {
             return null;
         }
@@ -31,6 +38,7 @@ abstract class ChessPiece {
     public abstract Set<Coords> getPossibleMoves();
     
     boolean isValidMove(Coords c) {
+        possibleMoves = getPossibleMoves();
         return possibleMoves.contains(c);
     }
     

@@ -134,7 +134,7 @@ class ChessBoard {
         repaint("");
     }
 
-    private static void repaint(String message) {
+    public static void repaint(String message) {
         message = (message != null) ? message : "";
         for (int i = 0; i < BoardState.chessPieces[0].length; i++) {
             for (int j = 0; j < BoardState.chessPieces[1].length; j++) {
