@@ -80,12 +80,4 @@ public class Queen implements ChessPiece {
     public boolean isWhite() {
         return isWhite;
     }
-
-    private boolean inBounds(Coords c) {
-        int i = c.getfst();
-        int j = c.getlst();
-
-        return !(i > 7 || i < 0 || j > 7 || j < 0);
-    }
-
 }
