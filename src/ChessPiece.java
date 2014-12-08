@@ -8,7 +8,7 @@ abstract class ChessPiece {
     Set<Coords> possibleMoves;
 
     public String move(Coords c) {
-        if (isValidMove(c)) {
+        if (isValidMove(false, c)) {
             int i1 = coords.getfst() + 1;
             int j1 = coords.getlst() + 1;
             int i2 = c.getfst() + 1;
@@ -35,10 +35,10 @@ abstract class ChessPiece {
         }
     }
     
-    public abstract Set<Coords> getPossibleMoves();
+    public abstract Set<Coords> getPossibleMoves(boolean calledFromCheck);
     
-    boolean isValidMove(Coords c) {
-        possibleMoves = getPossibleMoves();
+    boolean isValidMove(boolean calledFromCheck, Coords c) {
+        possibleMoves = getPossibleMoves(calledFromCheck);
         return possibleMoves.contains(c);
     }
     

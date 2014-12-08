@@ -11,7 +11,7 @@ public class Queen extends ChessPiece {
     }
 
     @Override
-    public Set<Coords> getPossibleMoves() {
+    public Set<Coords> getPossibleMoves(boolean calledFromCheck) {
         possibleMoves.removeAll(possibleMoves);
 
         int x = coords.getfst();

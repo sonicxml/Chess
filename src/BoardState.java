@@ -2,6 +2,8 @@ public class BoardState {
     static final ChessPiece[][] chessPieces = new ChessPiece[8][8];
     static Coords blackKing = new Coords(0, 4);
     static Coords whiteKing = new Coords(7, 4);
+    static boolean whiteInCheck = false;
+    static boolean blackInCheck = false;
     private static int whiteScore = 0;
     private static int blackScore = 0;
 
@@ -90,7 +92,9 @@ public class BoardState {
     }
 
     public static boolean isInCheck(Coords loc, boolean white) {
-        // Coords testCoords = (white) ? whiteKing : blackKing;
+        // init is the piece that is calling isInCheck
+        // we want to avoid checking that piece so we don't get a
+        // stack overflow
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
                 if (chessPieces[i][j] == null) {
@@ -98,9 +102,17 @@ public class BoardState {
                 }
 
                 if (chessPieces[i][j].isWhite() != white) {
-                    if (chessPieces[i][j].isValidMove(loc)) {
+                    if (chessPieces[i][j].isValidMove(true, loc)) {
                         ChessBoard.repaint(white ? "White " : "Black "
                         + "is in check!");
+                        if (loc == whiteKing && white) {
+                            whiteInCheck = true;
+                        } else if (loc == blackKing && !white) {
+                            blackInCheck = true;
+                        } else {
+                            whiteInCheck = false;
+                            blackInCheck = false;
+                        }
                         return true;
                     }
                 }

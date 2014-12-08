@@ -11,7 +11,7 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public Set<Coords> getPossibleMoves() {
+    public Set<Coords> getPossibleMoves(boolean calledFromCheck) {
         possibleMoves.removeAll(possibleMoves);
 
         int x = coords.getfst();
@@ -28,15 +28,26 @@ public class King extends ChessPiece {
                 if (inBounds(move)) {
                     if(chessPieces[p][q] != null &&
                             chessPieces[p][q].isWhite() != isWhite) {
-                        possibleMoves.add(move);
+                        if (!calledFromCheck &&
+                                !BoardState.isInCheck(move, isWhite)) {
+                            possibleMoves.add(move);
+                        }
                     } else if (chessPieces[p][q] == null) {
-                        possibleMoves.add(move);
+                        if (!calledFromCheck &&
+                                !BoardState.isInCheck(move, isWhite)) {
+                            possibleMoves.add(move);
+                        }
                     }
                 }
             }
         }
         return possibleMoves;
     }
+//
+//    @Override
+//    boolean isValidMove(Coords c) {
+//        return possibleMoves.contains(c);
+//    }
 
     @Override
     public String getIcon() {

@@ -202,14 +202,14 @@ class ChessBoard {
                 BoardState.chessPieces[iF][jF].isWhite() == isWhitesMove) {
 
             Set<Coords> possMoves =
-                    BoardState.chessPieces[iF][jF].getPossibleMoves();
+                    BoardState.chessPieces[iF][jF].getPossibleMoves(false);
             togglePossibleMoves(possMoves);
             isClicked = true;
             oldX = iF;
             oldY = jF;
         } else if (isClicked) {
             Set<Coords> possMoves =
-                    BoardState.chessPieces[oldX][oldY].getPossibleMoves();
+                    BoardState.chessPieces[oldX][oldY].getPossibleMoves(false);
             togglePossibleMoves(possMoves);
             isClicked = false;
             String s =

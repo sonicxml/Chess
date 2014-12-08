@@ -10,7 +10,7 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public Set<Coords> getPossibleMoves() {
+    public Set<Coords> getPossibleMoves(boolean calledFromCheck) {
         possibleMoves.removeAll(possibleMoves);
 
         if (coords.getfst() == 0 || coords.getfst() == 7) {
