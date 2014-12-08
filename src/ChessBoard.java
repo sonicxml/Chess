@@ -171,6 +171,7 @@ class ChessBoard {
             }
         }
     }
+
     private static void setDefaultBorderColors() {
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
