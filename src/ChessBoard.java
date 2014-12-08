@@ -46,7 +46,7 @@ class ChessBoard {
         for (int i = 0; i < chessSquares[0].length; i++) {
             for (int j = 0; j < chessSquares[1].length; j++) {
                 JButton square = new JButton();
-                square.setBorder(BorderFactory.createLineBorder(Color.green,3));
+                square.setBorder(BorderFactory.createLineBorder(Color.GREEN,3));
                 square.setBorderPainted(false);
                 square.setPreferredSize(new Dimension(70, 70));
                 square.setOpaque(true);
@@ -171,6 +171,18 @@ class ChessBoard {
             }
         }
     }
+    private static void setDefaultBorderColors() {
+        for (int i = 0; i < chessSquares[0].length; i++) {
+            for (int j = 0; j < chessSquares[1].length; j++) {
+                if (i > 0 && i < 9 && j > 0 && j < 9) {
+                    chessSquares[i][j]
+                            .setBorder(BorderFactory.
+                                    createLineBorder(Color.GREEN, 3));
+                    chessSquares[i][j].setBorderPainted(false);
+                }
+            }
+        }
+    }
 
     private static void toggleBackground(int i, int j) {
         if (chessSquares[i][j].getBackground() == Color.YELLOW) {
@@ -182,7 +194,10 @@ class ChessBoard {
         frame.repaint();
     }
 
-    private static void togglePossibleMoves(Set<Coords> coords) {
+    private static void togglePossibleMoves(int i, int j, Set<Coords> coords) {
+        chessSquares[i][j].
+                setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+        chessSquares[i][j].setBorderPainted(true);
         for (Coords c : coords) {
             int x = c.getfst() + 1;
             int y = c.getlst() + 1;
@@ -203,14 +218,14 @@ class ChessBoard {
 
             Set<Coords> possMoves =
                     BoardState.chessPieces[iF][jF].getPossibleMoves(false);
-            togglePossibleMoves(possMoves);
+            togglePossibleMoves(iF + 1, jF + 1, possMoves);
             isClicked = true;
             oldX = iF;
             oldY = jF;
         } else if (isClicked) {
             Set<Coords> possMoves =
                     BoardState.chessPieces[oldX][oldY].getPossibleMoves(false);
-            togglePossibleMoves(possMoves);
+            togglePossibleMoves(oldX + 1, oldY + 1, possMoves);
             isClicked = false;
             String s =
                     BoardState.chessPieces[oldX][oldY].move(new Coords(iF, jF));
@@ -218,7 +233,11 @@ class ChessBoard {
                 Game.toggleUndo(true);
                 isWhitesMove = !BoardState.chessPieces[iF][jF].isWhite();
                 newLoc = new Coords(iF, jF);
+                setDefaultBorderColors();
                 repaint(s);
+            } else {
+                setDefaultBorderColors();
+                repaint("");
             }
         }
     }
