@@ -51,9 +51,4 @@ public class Queen extends ChessPiece {
     public String getIcon() {
         return (isWhite) ? "♕" : "♛";
     }
-
-    @Override
-    public String toString() {
-        return "Queen";
-    }
 }

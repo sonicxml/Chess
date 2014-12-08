@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+
 public class BoardState {
     static final ChessPiece[][] chessPieces = new ChessPiece[8][8];
     static Coords blackKing = new Coords(0, 4);
@@ -17,6 +20,10 @@ public class BoardState {
     }
 
     public static void resetPieces() {
+        blackKing = new Coords(0, 4);
+        whiteKing = new Coords(7, 4);
+        whiteInCheck = false;
+        blackInCheck = false;
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
                 if (i < 2 || i > 5) {
@@ -57,7 +64,7 @@ public class BoardState {
 
         ChessPiece temp = chessPieces[i1][j1];
 
-        if (temp.toString().equals("King")) {
+        if (temp.getClass().getName().equals("King")) {
             if (temp.isWhite()) {
                 whiteKing = newLoc;
             } else {
@@ -68,7 +75,7 @@ public class BoardState {
         chessPieces[i1][j1] = null;
         if (chessPieces[i2][j2] != null) {
             int score = getRelativeValue(
-                    Piece.valueOf(chessPieces[i2][j2].toString()));
+                    Piece.valueOf(chessPieces[i2][j2].getClass().getName()));
             if (temp.isWhite()) {
                 whiteScore += score;
             } else {
@@ -122,8 +129,8 @@ public class BoardState {
                             blackInCheck = true;
                         }
 
-                        System.out.println("White in check: " + whiteInCheck);
-                        System.out.println("Black in check: " + blackInCheck);
+                        // System.out.println("White in check: " + whiteInCheck);
+                        // System.out.println("Black in check: " + blackInCheck);
                         return true;
                     }
                 }
@@ -138,6 +145,50 @@ public class BoardState {
         whiteInCheck = false;
         blackInCheck = false;
         return false;
+    }
+
+    public static int isMate() {
+        // Return values:
+        // -1: Black checkmated White
+        // 0: Stalemate
+        // 1: White checkmated Black
+        // 2: No mate
+
+        isInCheck(null, whiteKing, null, true);
+        isInCheck(null, blackKing, null, false);
+        Set<Coords> whiteMoves = new HashSet<Coords>();
+        Set<Coords> blackMoves = new HashSet<Coords>();
+        for (int i = 0; i < chessPieces[0].length; i++) {
+            for (int j = 0; j < chessPieces[1].length; j++) {
+                ChessPiece temp = chessPieces[i][j];
+                if (temp == null) {
+                    continue;
+                }
+
+                Set<Coords> tempMoves = temp.getPossibleMoves(false);
+                if (temp.isWhite()) {
+                    whiteMoves.addAll(tempMoves);
+//                    if (whiteInCheck) {
+//                        System.out.println(temp.toString() + ": " + tempMoves.size());
+//                    }
+                } else {
+                    blackMoves.addAll(tempMoves);
+//                    System.out.println(temp.toString() + ": " + tempMoves.size() + blackInCheck);
+                }
+            }
+        }
+
+//        System.out.println("White moves: " + whiteMoves.size());
+//        System.out.println("Black moves: " + blackMoves.size());
+        if (whiteMoves.isEmpty() && blackMoves.isEmpty()) {
+            return 0;
+        } else if (whiteMoves.isEmpty()) {
+            return -1;
+        } else if (blackMoves.isEmpty()) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 
     static ChessPiece[][] getBoard() {

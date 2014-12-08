@@ -70,9 +70,4 @@ public class Rook extends ChessPiece {
     public String getIcon() {
         return (isWhite) ? "♖" : "♜";
     }
-
-    @Override
-    public String toString() {
-        return "Rook";
-    }
 }

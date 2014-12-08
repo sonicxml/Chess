@@ -19,14 +19,23 @@ abstract class ChessPiece {
             this.coords.modify(c.getfst(), c.getlst());
             System.out.println("Moving out, diggity dawg!");
 
-            String mesg = ((isWhite) ? "White " : "Black ") + toString()
-                    + " from " + String.valueOf((char) (j1 + 64))
+            String mesg = ((isWhite) ? "White " : "Black ") +
+                    this.getClass().getName() + " from "
+                    + String.valueOf((char) (j1 + 64))
                     + String.valueOf(i1) + " to " +
                     String.valueOf((char) (j2 + 64)) + String.valueOf(i2) + ".";
 
             Coords kingLoc = isWhite ?
                     BoardState.blackKing : BoardState.whiteKing;
-            if (BoardState.isInCheck(coords, kingLoc, null, !isWhite)) {
+
+            int mate = BoardState.isMate();
+            if (mate == 0) {
+                mesg += " Stalemate!";
+            } else if (mate == -1) {
+                mesg += " Black checkmated White!";
+            } else if (mate == 1) {
+                mesg += " White checkmated Black!";
+            } else if (BoardState.isInCheck(coords, kingLoc, null, !isWhite)) {
                 mesg += (isWhite() ? " Black " : " White ") + "is in check!";
             }
             return mesg;
@@ -46,7 +55,11 @@ abstract class ChessPiece {
     
     public abstract String getIcon();
 
-    public abstract String toString();
+    public String toString() {
+        return (isWhite() ? "White " : "Black ") + this.getClass().getName() +
+                " at " + String.valueOf((char) (coords.getlst() + 1 + 64))
+                + String.valueOf(coords.getfst() + 1);
+    }
     
     public boolean isWhite() {
         return isWhite;

@@ -70,9 +70,4 @@ public class Knight extends ChessPiece {
     public String getIcon() {
         return (isWhite) ? "♘" : "♞";
     }
-
-    @Override
-    public String toString() {
-        return "Knight";
-    }
 }

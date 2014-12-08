@@ -30,14 +30,15 @@ public class King extends ChessPiece {
                             chessPieces[p][q].isWhite() != isWhite) {
                         if (!calledFromCheck &&
                                 !BoardState.isInCheck(coords, move,
-                                        null, isWhite)) {
+                                        move, isWhite)) {
                             possibleMoves.add(move);
                         }
                     } else if (chessPieces[p][q] == null) {
                         if (!calledFromCheck &&
                                 !BoardState.isInCheck(coords, move,
-                                        null, isWhite)) {
+                                        move, isWhite)) {
                             possibleMoves.add(move);
+
                         }
                     }
                 }
@@ -45,19 +46,9 @@ public class King extends ChessPiece {
         }
         return possibleMoves;
     }
-//
-//    @Override
-//    boolean isValidMove(Coords c) {
-//        return possibleMoves.contains(c);
-//    }
 
     @Override
     public String getIcon() {
         return (isWhite) ? "♔" : "♚";
-    }
-
-    @Override
-    public String toString() {
-        return "King";
     }
 }
