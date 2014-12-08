@@ -29,12 +29,14 @@ public class King extends ChessPiece {
                     if(chessPieces[p][q] != null &&
                             chessPieces[p][q].isWhite() != isWhite) {
                         if (!calledFromCheck &&
-                                !BoardState.isInCheck(move, isWhite)) {
+                                !BoardState.isInCheck(coords, move,
+                                        null, isWhite)) {
                             possibleMoves.add(move);
                         }
                     } else if (chessPieces[p][q] == null) {
                         if (!calledFromCheck &&
-                                !BoardState.isInCheck(move, isWhite)) {
+                                !BoardState.isInCheck(coords, move,
+                                        null, isWhite)) {
                             possibleMoves.add(move);
                         }
                     }

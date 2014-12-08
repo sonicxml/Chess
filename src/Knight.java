@@ -28,10 +28,10 @@ public class Knight extends ChessPiece {
                     if (inBounds(move)) {
                         if (chessPieces[p][q] != null) {
                             if (chessPieces[p][q].isWhite() != isWhite) {
-                                possibleMoves.add(move);
+                                addIfNotCheck(calledFromCheck, move);
                             }
                         } else {
-                            possibleMoves.add(move);
+                            addIfNotCheck(calledFromCheck, move);
                         }
                     }
 
@@ -41,10 +41,10 @@ public class Knight extends ChessPiece {
                     if (inBounds(move)) {
                         if (chessPieces[p][q] != null) {
                             if (chessPieces[p][q].isWhite() != isWhite) {
-                                possibleMoves.add(move);
+                                addIfNotCheck(calledFromCheck, move);
                             }
                         } else {
-                            possibleMoves.add(move);
+                            addIfNotCheck(calledFromCheck, move);
                         }
                     }
                 } else {
@@ -54,10 +54,10 @@ public class Knight extends ChessPiece {
                     if (inBounds(move)) {
                         if (chessPieces[p][q] != null) {
                             if (chessPieces[p][q].isWhite() != isWhite) {
-                                possibleMoves.add(move);
+                                addIfNotCheck(calledFromCheck, move);
                             }
                         } else {
-                            possibleMoves.add(move);
+                            addIfNotCheck(calledFromCheck, move);
                         }
                     }
                 }

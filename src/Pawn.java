@@ -32,7 +32,7 @@ public class Pawn extends ChessPiece {
             j = y;
             move = new Coords(i, j);
             if (chessPieces[i][j] == null) {
-                possibleMoves.add(move);
+                addIfNotCheck(calledFromCheck, move);
             }
         }
 
@@ -41,7 +41,7 @@ public class Pawn extends ChessPiece {
         j = y;
         move = new Coords(i, j);
         if (chessPieces[i][j] == null)
-            possibleMoves.add(move);
+            addIfNotCheck(calledFromCheck, move);
 
         // Attacking move 1
         i = x + incr;
@@ -50,7 +50,7 @@ public class Pawn extends ChessPiece {
         if (inBounds(move)) {
             if (chessPieces[i][j] != null
                     && chessPieces[i][j].isWhite() != isWhite)
-                possibleMoves.add(move);
+                addIfNotCheck(calledFromCheck, move);
         }
 
         // Attacking move 2
@@ -60,7 +60,7 @@ public class Pawn extends ChessPiece {
         if (inBounds(move)) {
             if (chessPieces[i][j] != null
                     && chessPieces[i][j].isWhite() != isWhite)
-                possibleMoves.add(move);
+                addIfNotCheck(calledFromCheck, move);
         }
 
         return possibleMoves;

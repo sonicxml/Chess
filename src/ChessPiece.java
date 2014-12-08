@@ -26,7 +26,7 @@ abstract class ChessPiece {
 
             Coords kingLoc = isWhite ?
                     BoardState.blackKing : BoardState.whiteKing;
-            if (BoardState.isInCheck(kingLoc, !isWhite)) {
+            if (BoardState.isInCheck(coords, kingLoc, null, !isWhite)) {
                 mesg += (isWhite() ? " Black " : " White ") + "is in check!";
             }
             return mesg;
@@ -38,6 +38,8 @@ abstract class ChessPiece {
     public abstract Set<Coords> getPossibleMoves(boolean calledFromCheck);
     
     boolean isValidMove(boolean calledFromCheck, Coords c) {
+        // If calledFromCheck is true, then we won't check for check
+        // when searching for possible moves to avoid a stack overflow
         possibleMoves = getPossibleMoves(calledFromCheck);
         return possibleMoves.contains(c);
     }
@@ -60,5 +62,21 @@ abstract class ChessPiece {
         int j = c.getlst();
 
         return !(i > 7 || i < 0 || j > 7 || j < 0);
+    }
+
+    void addIfNotCheck(boolean calledFromCheck, Coords move) {
+        if (calledFromCheck) {
+            possibleMoves.add(move);
+        } else {
+            if ((isWhite()) ? BoardState.whiteInCheck : BoardState.blackInCheck) {
+                Coords kingLoc = isWhite ?
+                        BoardState.whiteKing : BoardState.blackKing;
+                if (!BoardState.isInCheck(coords, kingLoc, move, isWhite())) {
+                    possibleMoves.add(move);
+                }
+            } else {
+                possibleMoves.add(move);
+            }
+        }
     }
 }

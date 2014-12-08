@@ -91,10 +91,16 @@ public class BoardState {
         blackScore = 0;
     }
 
-    public static boolean isInCheck(Coords loc, boolean white) {
-        // init is the piece that is calling isInCheck
-        // we want to avoid checking that piece so we don't get a
-        // stack overflow
+    public static boolean isInCheck(Coords init, Coords loc, Coords move, boolean white) {
+        ChessPiece temp1 = new Pawn(new Coords(0, 0), true);
+        ChessPiece temp2 = new Pawn(new Coords(0, 0), true);
+        if (init != null && move != null) {
+            temp1 = chessPieces[init.getfst()][init.getlst()];
+            temp2 = chessPieces[move.getfst()][move.getlst()];
+            chessPieces[init.getfst()][init.getlst()] = null;
+            chessPieces[move.getfst()][move.getlst()] = temp1;
+        }
+
         for (int i = 0; i < chessPieces[0].length; i++) {
             for (int j = 0; j < chessPieces[1].length; j++) {
                 if (chessPieces[i][j] == null) {
@@ -103,21 +109,34 @@ public class BoardState {
 
                 if (chessPieces[i][j].isWhite() != white) {
                     if (chessPieces[i][j].isValidMove(true, loc)) {
+                        if (init != null && move != null) {
+                            chessPieces[init.getfst()][init.getlst()] = temp1;
+                            chessPieces[move.getfst()][move.getlst()] = temp2;
+                        }
+
                         ChessBoard.repaint(white ? "White " : "Black "
-                        + "is in check!");
+                                + "is in check!");
                         if (loc == whiteKing && white) {
                             whiteInCheck = true;
                         } else if (loc == blackKing && !white) {
                             blackInCheck = true;
-                        } else {
-                            whiteInCheck = false;
-                            blackInCheck = false;
                         }
+
+                        System.out.println("White in check: " + whiteInCheck);
+                        System.out.println("Black in check: " + blackInCheck);
                         return true;
                     }
                 }
             }
         }
+
+        if (init != null && move != null) {
+            chessPieces[init.getfst()][init.getlst()] = temp1;
+            chessPieces[move.getfst()][move.getlst()] = temp2;
+        }
+
+        whiteInCheck = false;
+        blackInCheck = false;
         return false;
     }
 

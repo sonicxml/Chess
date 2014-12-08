@@ -28,7 +28,7 @@ public class Queen extends ChessPiece {
 
                     while (chessPieces[p][q] == null) {
                         move = new Coords(p, q);
-                        possibleMoves.add(move);
+                        addIfNotCheck(calledFromCheck, move);
                         scale++;
                         p = x + i * scale;
                         q = y + j * scale;
@@ -37,7 +37,7 @@ public class Queen extends ChessPiece {
                     if (chessPieces[p][q] != null &&
                             chessPieces[p][q].isWhite() != isWhite) {
                         move = new Coords(p, q);
-                        possibleMoves.add(move);
+                        addIfNotCheck(calledFromCheck, move);
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
                     // Do Nothing
