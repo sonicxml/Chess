@@ -7,6 +7,8 @@ public class BoardState {
     static Coords whiteKing = new Coords(7, 4);
     static boolean whiteInCheck = false;
     static boolean blackInCheck = false;
+    static ChessPiece lastCapturedPiece;
+    static Coords lastCapturedCoords;
     private static int whiteScore = 0;
     private static int blackScore = 0;
 
@@ -74,6 +76,8 @@ public class BoardState {
 
         chessPieces[i1][j1] = null;
         if (chessPieces[i2][j2] != null) {
+            lastCapturedPiece = chessPieces[i2][j2];
+            lastCapturedCoords = new Coords(i2, j2);
             int score = getRelativeValue(
                     Piece.valueOf(chessPieces[i2][j2].getClass().getName()));
             if (temp.isWhite()) {
@@ -121,7 +125,7 @@ public class BoardState {
                             chessPieces[move.getfst()][move.getlst()] = temp2;
                         }
 
-                        ChessBoard.repaint(white ? "White " : "Black "
+                        ChessBoard.repaint((white ? "White " : "Black ")
                                 + "is in check!");
                         if (loc == whiteKing && white) {
                             whiteInCheck = true;
@@ -182,10 +186,18 @@ public class BoardState {
 //        System.out.println("Black moves: " + blackMoves.size());
         if (whiteMoves.isEmpty() && blackMoves.isEmpty()) {
             return 0;
-        } else if (whiteMoves.isEmpty()) {
-            return -1;
-        } else if (blackMoves.isEmpty()) {
-            return 1;
+        } else if (whiteMoves.isEmpty() && ChessBoard.isWhitesMove) {
+            if (whiteInCheck) {
+                return -1;
+            } else {
+                return 0;
+            }
+        } else if (blackMoves.isEmpty() && !ChessBoard.isWhitesMove) {
+            if (blackInCheck) {
+                return 1;
+            } else {
+                return 0;
+            }
         } else {
             return 2;
         }

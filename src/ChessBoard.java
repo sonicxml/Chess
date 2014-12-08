@@ -25,7 +25,7 @@ class ChessBoard {
     private static final Color DARK_TAN = new Color(190, 120, 50);
     private static final Color LIGHT_TAN = new Color(247, 206, 132);
 
-    private static boolean isWhitesMove = true;
+    static boolean isWhitesMove = true;
     private static boolean isClicked = false;
     private static boolean isGreen = false;
 
@@ -128,6 +128,9 @@ class ChessBoard {
         isGreen = false;
         setDefaultBGColors();
         BoardState.chessPieces[newLoc.getfst()][newLoc.getlst()].undoLastMove();
+        BoardState.chessPieces[BoardState.lastCapturedCoords.getfst()]
+                [BoardState.lastCapturedCoords.getlst()] =
+                BoardState.lastCapturedPiece;
         isWhitesMove = !isWhitesMove;
         Game.toggleUndo(false);
         // TODO: Undo score changes
