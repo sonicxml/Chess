@@ -12,6 +12,8 @@ public class BoardState {
     static int lastCapturedScore;
     private static int whiteScore = 0;
     private static int blackScore = 0;
+    private static int fiftyMoves = 0; // 50-move rule counter
+
 
     private static enum Piece {
         Pawn,
@@ -79,12 +81,15 @@ public class BoardState {
             } else {
                 blackKing = newLoc;
             }
+        } else if (temp.getClass().getName().equals("Pawn")) {
+            fiftyMoves = 0;
         }
 
         chessPieces[i1][j1] = null;
         if (chessPieces[i2][j2] != null) {
             lastCapturedPiece = chessPieces[i2][j2];
             lastCapturedCoords = new Coords(i2, j2);
+            fiftyMoves = 0;
             int score = getRelativeValue(
                     Piece.valueOf(chessPieces[i2][j2].getClass().getName()));
             lastCapturedScore = score;
@@ -92,6 +97,11 @@ public class BoardState {
                 whiteScore += score;
             } else {
                 blackScore += score;
+            }
+        } else {
+            fiftyMoves++;
+            if (fiftyMoves == 50) {
+                Game.endScreen(0); // It is a draw
             }
         }
         chessPieces[i2][j2] = temp;
