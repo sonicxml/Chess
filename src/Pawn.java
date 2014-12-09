@@ -27,21 +27,23 @@ public class Pawn extends ChessPiece {
         // White moves up the board, black moves down
         int incr = isWhite ? -1 : 1;
 
-        if (x == 1 || x == 6) {
-            i = x + 2 * incr;
-            j = y;
-            move = new Coords(i, j);
-            if (chessPieces[i][j] == null) {
-                addIfNotCheck(calledFromCheck, move);
-            }
-        }
-
         // Forward move
         i = x + incr;
         j = y;
         move = new Coords(i, j);
-        if (chessPieces[i][j] == null)
+        if (chessPieces[i][j] == null) {
             addIfNotCheck(calledFromCheck, move);
+            // Double Forward
+            // Placed in here because the first spot needs to be empty too
+            if (x == 1 || x == 6) {
+                i = x + 2 * incr;
+                j = y;
+                move = new Coords(i, j);
+                if (chessPieces[i][j] == null) {
+                    addIfNotCheck(calledFromCheck, move);
+                }
+            }
+        }
 
         // Attacking move 1
         i = x + incr;
