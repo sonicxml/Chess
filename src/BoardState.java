@@ -140,9 +140,6 @@ public class BoardState {
                         } else if (loc == blackKing) {
                             blackInCheck = !white ? true : false;
                         }
-
-//                        System.out.println("White in check: " + whiteInCheck);
-//                        System.out.println("Black in check: " + blackInCheck);
                         return true;
                     }
                 }
@@ -153,9 +150,6 @@ public class BoardState {
             chessPieces[init.getfst()][init.getlst()] = temp1;
             chessPieces[move.getfst()][move.getlst()] = temp2;
         }
-
-//        whiteInCheck = false;
-//        blackInCheck = false;
         return false;
     }
 

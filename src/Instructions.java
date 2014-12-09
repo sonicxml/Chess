@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.border.Border;
 
 class Instructions implements Runnable {
-    private final Dimension SIZE = new Dimension(300, 200);
+    private final Dimension SIZE = new Dimension(300, 250);
     public void run() {
         JFrame frame = new JFrame("Instructions");
         frame.setAlwaysOnTop(true);
@@ -27,7 +27,7 @@ class Instructions implements Runnable {
         header.setVerticalAlignment(JLabel.CENTER);
         
         // Create Instructions text
-        JLabel body = new JLabel("<html><body><p> This game plays the same way as chess, yo. </p> <br> <br> <p> Wonder why? Because it IS chess, diggity dawg. </p></body></html>");
+        JLabel body = new JLabel("<html><body><p> This game plays the same way as chess. </p> <br> <br> <p> Wonder why? Because it IS chess, diggity dawg. </p> <br> <br> <p> Just use a mouse to click and move. </p> </body></html>");
         body.setBorder(BorderFactory.createCompoundBorder(null,paddingBorder));
 
         // Create close button

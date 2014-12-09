@@ -31,10 +31,13 @@ abstract class ChessPiece {
             int mate = BoardState.isMate();
             if (mate == 0) {
                 mesg += " Stalemate!";
+                Game.endScreen(mate);
             } else if (mate == -1) {
                 mesg += " Black checkmated White!";
+                Game.endScreen(mate);
             } else if (mate == 1) {
                 mesg += " White checkmated Black!";
+                Game.endScreen(mate);
             } else if (BoardState.isInCheck(coords, kingLoc, null, !isWhite)) {
                 mesg += (isWhite() ? " Black " : " White ") + "is in check!";
             }

@@ -1,12 +1,12 @@
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 class Game implements Runnable {
-    private static final JMenuBar menu = new JMenuBar();
+	private static final JFrame frame = new JFrame("Chess");
+	private static final JMenuBar menu = new JMenuBar();
     private static final JMenu gameMenu = new JMenu("Game");
     private static final JMenuItem newGame = new JMenuItem("New Game");
     private static final JMenuItem undo = new JMenuItem("Undo");
@@ -15,7 +15,6 @@ class Game implements Runnable {
     private static final JMenuItem about = new JMenuItem("About this game");
 
 	public void run() {
-		final JFrame frame = new JFrame("Chess");
 		frame.setLocation(300, 300);
 
 		// Status panel
@@ -25,10 +24,9 @@ class Game implements Runnable {
 		status_panel.add(status);
 
 		// Main playing area
-		final ChessBoard court = new ChessBoard(status);
+		final ChessBoard board = new ChessBoard(status);
 		frame.add(ChessBoard.frame, BorderLayout.CENTER);
 
-		
 		menu.setVisible(true);
 
 		// Game Heading
@@ -83,6 +81,51 @@ class Game implements Runnable {
 
 	public static void toggleUndo(boolean bool) {
 	    undo.setEnabled(bool);
+	}
+
+	public static void endScreen(int winCon) {
+		final JDialog dialog = new JDialog(frame, "Game Over", true);
+		final JButton newGame = new JButton("New Game");
+		newGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ChessBoard.reset();
+				dialog.dispose();
+			}
+		});
+
+		final JButton exit = new JButton("Exit");
+		exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+
+		String winner;
+		if (winCon == 1) {
+			winner = "White won!";
+		} else if (winCon == -1) {
+			winner = "Black won!";
+		} else {
+			winner = "Draw!";
+		}
+		JLabel header = new JLabel("<html><h1>" + winner + "</h1></html>");
+		header.setHorizontalAlignment(JLabel.CENTER);
+		header.setVerticalAlignment(JLabel.CENTER);
+
+		JPanel panel = new JPanel();
+		panel.add(header, BorderLayout.SOUTH);
+
+		JButton[] buttons = {exit, newGame};
+		JOptionPane optionPane = new JOptionPane(panel,
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.PLAIN_MESSAGE,
+				null, buttons, newGame);
+		dialog.getContentPane().add(optionPane);
+		dialog.setSize(300, 150);
+		dialog.setLocationRelativeTo(frame);
+		dialog.setVisible(true);
 	}
 
 	public static void main(String[] args) {

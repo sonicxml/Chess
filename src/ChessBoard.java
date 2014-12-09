@@ -29,10 +29,10 @@ class ChessBoard {
     private static boolean isClicked = false;
     private static boolean isGreen = false;
 
-    // For the Undo button and 3 move stalemate
-    // static ChessPiece[][] oldPieces;
+    // Store location of piece when initially clicked
     private static int oldX;
     private static int oldY;
+
     private static Coords newLoc = new Coords(0, 0);
 
     public ChessBoard(JLabel mesg) {
@@ -135,7 +135,7 @@ class ChessBoard {
         }
         isWhitesMove = !isWhitesMove;
         if (isWhitesMove) {
-            // Move all this to BoardState
+            // TODO: reset scores
         }
         Game.toggleUndo(false);
         repaint("");
@@ -223,7 +223,6 @@ class ChessBoard {
     private static void actionLogic(int iF, int jF) {
         if (BoardState.chessPieces[iF][jF] != null && !isClicked &&
                 BoardState.chessPieces[iF][jF].isWhite() == isWhitesMove) {
-
             Set<Coords> possMoves =
                     BoardState.chessPieces[iF][jF].getPossibleMoves(false);
             togglePossibleMoves(iF + 1, jF + 1, possMoves);
