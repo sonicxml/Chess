@@ -166,8 +166,8 @@ public class BoardState {
         // 1: White checkmated Black
         // 2: No mate
 
-        boolean whitecheck = isInCheck(null, whiteKing, null, true);
-        boolean blackcheck = isInCheck(null, blackKing, null, false);
+        isInCheck(null, whiteKing, null, true);
+        isInCheck(null, blackKing, null, false);
         Set<Coords> whiteMoves = new HashSet<Coords>();
         Set<Coords> blackMoves = new HashSet<Coords>();
         for (int i = 0; i < chessPieces[0].length; i++) {
@@ -189,16 +189,15 @@ public class BoardState {
         if (whiteMoves.isEmpty() && blackMoves.isEmpty()) {
             return 0;
         } else if (whiteMoves.isEmpty() && ChessBoard.isWhitesMove) {
-            if (whitecheck) {
+            if (whiteInCheck) {
                 return -1;
             } else {
                 return 0;
             }
         } else if (blackMoves.isEmpty() && !ChessBoard.isWhitesMove) {
-            if (blackcheck) {
+            if (blackInCheck) {
                 return 1;
             } else {
-                System.out.println("HI :(");
                 return 0;
             }
         } else {
