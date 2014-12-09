@@ -128,12 +128,16 @@ class ChessBoard {
         isGreen = false;
         setDefaultBGColors();
         BoardState.chessPieces[newLoc.getfst()][newLoc.getlst()].undoLastMove();
-        BoardState.chessPieces[BoardState.lastCapturedCoords.getfst()]
-                [BoardState.lastCapturedCoords.getlst()] =
-                BoardState.lastCapturedPiece;
+        if (BoardState.lastCapturedCoords != null) {
+            BoardState.chessPieces[BoardState.lastCapturedCoords.getfst()]
+                    [BoardState.lastCapturedCoords.getlst()] =
+                    BoardState.lastCapturedPiece;
+        }
         isWhitesMove = !isWhitesMove;
+        if (isWhitesMove) {
+            // Move all this to BoardState
+        }
         Game.toggleUndo(false);
-        // TODO: Undo score changes
         repaint("");
     }
 
@@ -231,15 +235,16 @@ class ChessBoard {
                     BoardState.chessPieces[oldX][oldY].getPossibleMoves(false);
             togglePossibleMoves(oldX + 1, oldY + 1, possMoves);
             isClicked = false;
+            isWhitesMove = !isWhitesMove;
             String s =
                     BoardState.chessPieces[oldX][oldY].move(new Coords(iF, jF));
             if (s != null) {
                 Game.toggleUndo(true);
-                isWhitesMove = !BoardState.chessPieces[iF][jF].isWhite();
                 newLoc = new Coords(iF, jF);
                 setDefaultBorderColors();
                 repaint(s);
             } else {
+                isWhitesMove = !isWhitesMove;
                 setDefaultBorderColors();
                 repaint("");
             }

@@ -15,7 +15,7 @@ abstract class ChessPiece {
             int j2 = c.getlst() + 1;
 
             oldCoords = new Coords(coords.getfst(), coords.getlst());
-            BoardState.movePiece(coords, c);
+            BoardState.movePiece(coords, c, false);
             this.coords.modify(c.getfst(), c.getlst());
             System.out.println("Moving out, diggity dawg!");
 
@@ -66,7 +66,7 @@ abstract class ChessPiece {
     }
 
     public void undoLastMove() {
-        BoardState.movePiece(this.coords, oldCoords);
+        BoardState.movePiece(this.coords, oldCoords, true);
         this.coords = oldCoords;
     }
 

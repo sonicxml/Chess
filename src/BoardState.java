@@ -9,6 +9,7 @@ public class BoardState {
     static boolean blackInCheck = false;
     static ChessPiece lastCapturedPiece;
     static Coords lastCapturedCoords;
+    static int lastCapturedScore;
     private static int whiteScore = 0;
     private static int blackScore = 0;
 
@@ -58,7 +59,13 @@ public class BoardState {
         }
     }
 
-    public static void movePiece(Coords oldLoc, Coords newLoc) {
+    public static void movePiece(Coords oldLoc, Coords newLoc, boolean undoing) {
+        if (!undoing) {
+            lastCapturedCoords = null;
+            lastCapturedPiece = null;
+            lastCapturedScore = 0;
+        }
+
         int i1 = oldLoc.getfst();
         int j1 = oldLoc.getlst();
         int i2 = newLoc.getfst();
@@ -80,6 +87,7 @@ public class BoardState {
             lastCapturedCoords = new Coords(i2, j2);
             int score = getRelativeValue(
                     Piece.valueOf(chessPieces[i2][j2].getClass().getName()));
+            lastCapturedScore = score;
             if (temp.isWhite()) {
                 whiteScore += score;
             } else {
@@ -127,14 +135,14 @@ public class BoardState {
 
                         ChessBoard.repaint((white ? "White " : "Black ")
                                 + "is in check!");
-                        if (loc == whiteKing && white) {
-                            whiteInCheck = true;
-                        } else if (loc == blackKing && !white) {
-                            blackInCheck = true;
+                        if (loc == whiteKing) {
+                            whiteInCheck = white ? true : false;
+                        } else if (loc == blackKing) {
+                            blackInCheck = !white ? true : false;
                         }
 
-                        // System.out.println("White in check: " + whiteInCheck);
-                        // System.out.println("Black in check: " + blackInCheck);
+//                        System.out.println("White in check: " + whiteInCheck);
+//                        System.out.println("Black in check: " + blackInCheck);
                         return true;
                     }
                 }
@@ -146,8 +154,8 @@ public class BoardState {
             chessPieces[move.getfst()][move.getlst()] = temp2;
         }
 
-        whiteInCheck = false;
-        blackInCheck = false;
+//        whiteInCheck = false;
+//        blackInCheck = false;
         return false;
     }
 
@@ -158,8 +166,8 @@ public class BoardState {
         // 1: White checkmated Black
         // 2: No mate
 
-        isInCheck(null, whiteKing, null, true);
-        isInCheck(null, blackKing, null, false);
+        boolean whitecheck = isInCheck(null, whiteKing, null, true);
+        boolean blackcheck = isInCheck(null, blackKing, null, false);
         Set<Coords> whiteMoves = new HashSet<Coords>();
         Set<Coords> blackMoves = new HashSet<Coords>();
         for (int i = 0; i < chessPieces[0].length; i++) {
@@ -172,30 +180,25 @@ public class BoardState {
                 Set<Coords> tempMoves = temp.getPossibleMoves(false);
                 if (temp.isWhite()) {
                     whiteMoves.addAll(tempMoves);
-//                    if (whiteInCheck) {
-//                        System.out.println(temp.toString() + ": " + tempMoves.size());
-//                    }
                 } else {
                     blackMoves.addAll(tempMoves);
-//                    System.out.println(temp.toString() + ": " + tempMoves.size() + blackInCheck);
                 }
             }
         }
 
-//        System.out.println("White moves: " + whiteMoves.size());
-//        System.out.println("Black moves: " + blackMoves.size());
         if (whiteMoves.isEmpty() && blackMoves.isEmpty()) {
             return 0;
         } else if (whiteMoves.isEmpty() && ChessBoard.isWhitesMove) {
-            if (whiteInCheck) {
+            if (whitecheck) {
                 return -1;
             } else {
                 return 0;
             }
         } else if (blackMoves.isEmpty() && !ChessBoard.isWhitesMove) {
-            if (blackInCheck) {
+            if (blackcheck) {
                 return 1;
             } else {
+                System.out.println("HI :(");
                 return 0;
             }
         } else {
