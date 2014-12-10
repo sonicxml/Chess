@@ -117,6 +117,7 @@ class ChessBoard {
         }
         int whiteScore = BoardState.getWhiteScore();
         int blackScore = BoardState.getBlackScore();
+        Game.toggleUndo(false);
         mesg.setText("New Game! It's White's move. White: "
                 + Integer.toString(whiteScore) + ", Black: "
                 + Integer.toString(blackScore));
@@ -249,22 +250,4 @@ class ChessBoard {
             }
         }
     }
-
-//    private static ChessPiece[][] copyChessPieces(ChessPiece[][] input) {
-//        if (input == null) {
-//            throw new IllegalArgumentException("Null ChessPieces");
-//        }
-//
-//        ChessPiece[][] target = new ChessPiece[input[0].length][input[1].length];
-//        for (int i = 0; i < input[0].length; i++) {
-//            for (int j = 0; j < input[1].length; j++) {
-//                if (input[i][j] == null) {
-//                    target[i][j] = null;
-//                } else {
-//                    target[i][j] = input[i][j];
-//                }
-//            }
-//        }
-//        return target;
-//    }
 }

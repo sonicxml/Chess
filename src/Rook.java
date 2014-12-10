@@ -18,7 +18,6 @@ public class Rook extends ChessPiece {
     public Set<Coords> getPossibleMoves(boolean calledFromCheck) {
         if (!coords.equals(initCoords)) {
             hasMoved = true;
-            System.out.println("KING MOVED! ATTN KING MOVED! YO OYOYOO");
         }
 
         possibleMoves.removeAll(possibleMoves);

@@ -77,8 +77,6 @@ public class King extends ChessPiece {
         }
 
         possibleMoves.removeAll(possibleMoves);
-        // castlingMoves = new HashSet<Coords>();
-        castlingMoves.add(new Coords(7, 7));
 
         int x = coords.getfst();
         int y = coords.getlst();
@@ -89,9 +87,9 @@ public class King extends ChessPiece {
             for (int j = -1; j < 2; j++) {
                 int p = x + i;
                 int q = y + j;
-                if (i == 0 && j == 0) {
-                    continue;
-                }
+//                if (i == 0 && j == 0) {
+//                    continue;
+//                }
                 move = new Coords(p, q);
                 if (inBounds(move)) {
                     if(chessPieces[p][q] != null &&
@@ -121,36 +119,17 @@ public class King extends ChessPiece {
         // King can't be in check and can't move in or through check
         boolean inCheck = (isWhite) ? BoardState.whiteInCheck :
                 BoardState.blackInCheck;
-        //System.out.println("Hello1");
         if (hasMoved == false && !inCheck) {
-            // System.out.println("Hello2");
             // Kingside castling
             if (possibleMoves.contains(new Coords(x, y + 1))) {
-//                System.out.println("Hello3");
                 int q = y + 2;
                 move = new Coords(x, q);
-//                boolean tempCheck = false;
-//                if (!calledFromCheck) {
-//                    if (BoardState.isInCheck(coords, move, move, isWhite)) {
-//                        tempCheck = true;
-//                    } else {
-//                        tempCheck = false;
-//                    }
-//                }
-//                System.out.println(chessPieces[x][q] == null);
-//                System.out.println(chessPieces[x][q + 1] != null);
-//                System.out.println(chessPieces[x][q + 1].getClass().getName().equals("Rook"));
-//                System.out.println(!chessPieces[x][q + 1].hasMoved);
-//                System.out.println(!calledFromCheck);
-//                System.out.println(!BoardState.isInCheck(coords, move, move, isWhite));
-//                System.out.println(tempCheck);
                 if (chessPieces[x][q] == null &&
                     chessPieces[x][q + 1] != null &&
                     chessPieces[x][q + 1].getClass().getName().equals("Rook")
                     && !chessPieces[x][q + 1].hasMoved
                     && !calledFromCheck &&
                     !BoardState.isInCheck(coords, move, move, isWhite)) {
-//                    System.out.println("Hello4");
                     possibleMoves.add(move);
                     castlingMoves.add(move);
                 }
