@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.Set;
 
 abstract class ChessPiece {
@@ -8,7 +7,6 @@ abstract class ChessPiece {
     Coords oldCoords;
     Set<Coords> possibleMoves;
     boolean hasMoved; // Only used by King and Rook
-    static boolean hasBeenClicked;
 
     public String move(Coords c) {
         if (isValidMove(c, false)) {
@@ -121,9 +119,5 @@ abstract class ChessPiece {
                 possibleMoves.add(move);
             }
         }
-    }
-
-    static void setClicked(boolean b) {
-        hasBeenClicked = b;
     }
 }
