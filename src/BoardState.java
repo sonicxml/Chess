@@ -12,6 +12,8 @@ public class BoardState {
     static int lastCapturedScore;
     private static int whiteScore = 0;
     private static int blackScore = 0;
+    private static int oldWScore = 0;
+    private static int oldBScore = 0;
     private static int fiftyMoves = 0; // 50-move rule counter
 
 
@@ -94,9 +96,13 @@ public class BoardState {
                     Piece.valueOf(chessPieces[i2][j2].getClass().getName()));
             lastCapturedScore = score;
             if (temp.isWhite()) {
+                oldWScore = whiteScore;
                 whiteScore += score;
+                oldBScore = blackScore;
             } else {
+                oldBScore = blackScore;
                 blackScore += score;
+                oldWScore = whiteScore;
             }
         } else {
             fiftyMoves++;
@@ -220,6 +226,11 @@ public class BoardState {
         } else {
             return 2;
         }
+    }
+
+    public static void undoScores() {
+        whiteScore = oldWScore;
+        blackScore = oldBScore;
     }
 
     static ChessPiece[][] getBoard() {

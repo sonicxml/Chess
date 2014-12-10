@@ -135,9 +135,7 @@ class ChessBoard {
                     BoardState.lastCapturedPiece;
         }
         isWhitesMove = !isWhitesMove;
-        if (isWhitesMove) {
-            // TODO: reset scores
-        }
+        BoardState.undoScores();
         Game.toggleUndo(false);
         repaint("");
     }
