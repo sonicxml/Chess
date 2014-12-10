@@ -5,16 +5,15 @@ import java.util.Set;
 public class King extends ChessPiece {
 
     Set<Coords> castlingMoves = new HashSet<Coords>();
+    Coords oldCoords; // Need for undo function
     boolean hasMoved = false; // For castling
     private Coords initCoords;
-    private Coords oldCoords;
 
     public King(Coords coords, boolean isWhite) {
         this.coords = coords;
         this.isWhite = isWhite;
         initCoords = new Coords(coords.getfst(), coords.getlst());
         possibleMoves = new HashSet<Coords>();
-        // castlingMoves = new HashSet<Coords>();
     }
 
     @Override
@@ -73,7 +72,6 @@ public class King extends ChessPiece {
     public Set<Coords> getPossibleMoves(boolean calledFromCheck) {
         if (!coords.equals(initCoords)) {
             hasMoved = true;
-//            System.out.println("KING MOVED! ATTN KING MOVED! YO OYOYOO");
         }
 
         possibleMoves.removeAll(possibleMoves);
@@ -149,8 +147,13 @@ public class King extends ChessPiece {
                 }
             }
         }
-//        System.out.println(castlingMoves);
         return possibleMoves;
+    }
+
+    @Override
+    public void undoLastMove() {
+        BoardState.movePiece(this.coords, oldCoords, true);
+        this.coords = oldCoords;
     }
 
     @Override
