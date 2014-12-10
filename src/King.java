@@ -18,7 +18,7 @@ public class King extends ChessPiece {
 
     @Override
     public String move(Coords c) {
-        if (isValidMove(false, c)) {
+        if (isValidMove(c, false)) {
             int i1 = coords.getfst() + 1;
             int j1 = coords.getlst() + 1;
             int i2 = c.getfst() + 1;

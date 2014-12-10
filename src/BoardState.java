@@ -147,7 +147,7 @@ public class BoardState {
                 }
 
                 if (chessPieces[i][j].isWhite() != white) {
-                    if (chessPieces[i][j].isValidMove(true, loc)) {
+                    if (chessPieces[i][j].isValidMove(loc, true)) {
                         if (init != null && move != null) {
                             chessPieces[init.getfst()][init.getlst()] = temp1;
                             chessPieces[move.getfst()][move.getlst()] = temp2;

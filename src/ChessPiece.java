@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.Set;
 
 abstract class ChessPiece {
@@ -7,9 +8,10 @@ abstract class ChessPiece {
     Coords oldCoords;
     Set<Coords> possibleMoves;
     boolean hasMoved; // Only used by King and Rook
+    static boolean hasBeenClicked;
 
     public String move(Coords c) {
-        if (isValidMove(false, c)) {
+        if (isValidMove(c, false)) {
             int i1 = coords.getfst() + 1;
             int j1 = coords.getlst() + 1;
             int i2 = c.getfst() + 1;
@@ -19,6 +21,30 @@ abstract class ChessPiece {
             BoardState.movePiece(coords, c, false);
             this.coords.modify(c.getfst(), c.getlst());
             System.out.println("Moving out, diggity dawg!");
+
+            if (this.getClass().getName().equals("Pawn")
+                    && (c.getfst() == 0 || c.getfst() == 7)) {
+                String answer = Game.pawnPromoWrapper();
+                switch (answer) {
+                    case "Queen":
+                        BoardState.chessPieces[i2 - 1][j2 - 1] =
+                        new Queen(new Coords(i2 -1, j2 - 1), this.isWhite);
+                        break;
+                    case "Knight":
+                        BoardState.chessPieces[i2 - 1][j2 - 1] =
+                        new Knight(new Coords(i2 -1, j2 - 1), this.isWhite);
+                        break;
+                    case "Rook":
+                        BoardState.chessPieces[i2 - 1][j2 - 1] =
+                        new Rook(new Coords(i2 -1, j2 - 1), this.isWhite);
+                        break;
+                    case "Bishop":
+                        BoardState.chessPieces[i2 - 1][j2 - 1] =
+                        new Bishop(new Coords(i2 -1, j2 - 1), this.isWhite);
+                        break;
+                    default: break;
+                }
+            }
 
             String mesg = ((isWhite) ? "White " : "Black ") +
                     this.getClass().getName() + " from "
@@ -50,7 +76,7 @@ abstract class ChessPiece {
     
     public abstract Set<Coords> getPossibleMoves(boolean calledFromCheck);
     
-    boolean isValidMove(boolean calledFromCheck, Coords c) {
+    boolean isValidMove(Coords c, boolean calledFromCheck) {
         // If calledFromCheck is true, then we won't check for check
         // when searching for possible moves to avoid a stack overflow
         possibleMoves = getPossibleMoves(calledFromCheck);
@@ -95,5 +121,9 @@ abstract class ChessPiece {
                 possibleMoves.add(move);
             }
         }
+    }
+
+    static void setClicked(boolean b) {
+        hasBeenClicked = b;
     }
 }

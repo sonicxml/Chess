@@ -1,11 +1,12 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 
 import javax.swing.*;
 
 class Game implements Runnable {
-	private static final JFrame frame = new JFrame("Chess");
+	static final JFrame frame = new JFrame("Chess");
 	private static final JMenuBar menu = new JMenuBar();
     private static final JMenu gameMenu = new JMenu("Game");
     private static final JMenuItem newGame = new JMenuItem("New Game");
@@ -13,6 +14,7 @@ class Game implements Runnable {
     private static final JMenu helpMenu = new JMenu("Help");
     private static final JMenuItem instructions = new JMenuItem("Instructions");
     private static final JMenuItem about = new JMenuItem("About this game");
+	static String pawnPromoAnswer = "Queen";
 
 	public void run() {
 		frame.setLocation(300, 300);
@@ -126,6 +128,18 @@ class Game implements Runnable {
 		dialog.setSize(300, 150);
 		dialog.setLocationRelativeTo(frame);
 		dialog.setVisible(true);
+	}
+
+	public static void setPawnPromoString(String answer) {
+		pawnPromoAnswer = answer;
+	}
+
+	public static String pawnPromoWrapper() {
+//		try {
+//			SwingUtilities.invokeLater(new PawnPromotion());
+//		} catch (Exception e) {
+//		}
+		return pawnPromoAnswer;
 	}
 
 	public static void main(String[] args) {
