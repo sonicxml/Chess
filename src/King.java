@@ -87,9 +87,6 @@ public class King extends ChessPiece {
             for (int j = -1; j < 2; j++) {
                 int p = x + i;
                 int q = y + j;
-//                if (i == 0 && j == 0) {
-//                    continue;
-//                }
                 move = new Coords(p, q);
                 if (inBounds(move)) {
                     if(chessPieces[p][q] != null &&
