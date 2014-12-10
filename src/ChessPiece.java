@@ -6,6 +6,8 @@ abstract class ChessPiece {
     Coords coords;
     private Coords oldCoords;
     Set<Coords> possibleMoves;
+    boolean hasMoved; // Only used by King and Rook
+    // Set<Coords> castlingMoves; // Only used by King
 
     public String move(Coords c) {
         if (isValidMove(false, c)) {

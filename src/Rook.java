@@ -3,15 +3,24 @@ import java.util.Set;
 
 
 public class Rook extends ChessPiece {
-    
+
+    public boolean hasMoved = false; // For castling
+    private Coords initCoords;
+
     public Rook(Coords coords, boolean isWhite) {
         this.coords = coords;
         this.isWhite = isWhite;
+        initCoords = new Coords(coords.getfst(), coords.getlst());
         possibleMoves = new HashSet<Coords>();
     }
 
     @Override
     public Set<Coords> getPossibleMoves(boolean calledFromCheck) {
+        if (!coords.equals(initCoords)) {
+            hasMoved = true;
+            System.out.println("KING MOVED! ATTN KING MOVED! YO OYOYOO");
+        }
+
         possibleMoves.removeAll(possibleMoves);
 
         int x = coords.getfst();

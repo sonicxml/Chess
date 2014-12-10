@@ -42,10 +42,12 @@ public class BoardState {
                         chessPieces[i][j] = (new Rook(location, isWhite));
                     } else if (j == 1 || j == 6) {
                         // Knight
-                        chessPieces[i][j] = (new Knight(location, isWhite));
+                        // chessPieces[i][j] = (new Knight(location, isWhite));
+                        chessPieces[i][j] = null;
                     } else if (j == 2 || j == 5) {
                         // Bishop
-                        chessPieces[i][j] = (new Bishop(location, isWhite));
+                        // chessPieces[i][j] = (new Bishop(location, isWhite));
+                        chessPieces[i][j] = null;
                     } else if (j == 3) {
                         // Queen
                         chessPieces[i][j] = (new Queen(location, isWhite));
@@ -107,6 +109,16 @@ public class BoardState {
         chessPieces[i2][j2] = temp;
     }
 
+    public static void castle(Coords init, Coords move, boolean kingside) {
+        int incr = (kingside) ? 1 : -2;
+        Coords rookInit = new Coords(move.getfst(), move.getlst() + incr);
+        incr = (kingside) ? -2 : 3;
+        Coords rookMove = new Coords(move.getfst(), rookInit.getlst() + incr);
+
+        movePiece(init, move, false);
+        movePiece(rookInit, rookMove, false);
+    }
+
     public static int getWhiteScore() {
         return whiteScore;
     }
@@ -143,8 +155,11 @@ public class BoardState {
                             chessPieces[move.getfst()][move.getlst()] = temp2;
                         }
 
-                        ChessBoard.repaint((white ? "White " : "Black ")
-                                + "is in check!");
+                        if (move == null) {
+                            ChessBoard.repaint((white ? "White " : "Black ")
+                                    + "is in check!");
+                        }
+
                         if (loc == whiteKing) {
                             whiteInCheck = white ? true : false;
                         } else if (loc == blackKing) {
